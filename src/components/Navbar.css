@@ -1,5 +1,17 @@
 .navbar {
     width: 100%;
     background: blue;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.navbar * {
     color: white;
+    font-size: 2rem;
+    text-decoration: none;
+}
+
+.navbar-clickable:hover {
+    color: black;
+    cursor: pointer;
 }

@@ -8,6 +8,7 @@ import {
 import Navbar from './components/Navbar';
 import Landing from './pages/Landing';
 import Home from './pages/Home';
+import Profile from './pages/Profile';
 import NotFound from './pages/NotFound';
 import './App.css';
 
@@ -25,11 +26,19 @@ function App() {
         <div className="App">
             <Router>
                 {!isLoggedIn ? <Redirect to="/login" /> : null}
-                <Navbar isLoggedIn={isLoggedIn} token={token} />
+                <Navbar
+                    isLoggedIn={isLoggedIn}
+                    setIsLoggedIn={setIsLoggedIn}
+                    token={token}
+                    setToken={setToken}
+                />
                 <div className="app-container">
                     <Switch>
                         <Route exact path="/">
-                            <Home />
+                            <Home token={token} />
+                        </Route>
+                        <Route exact path="/profile">
+                            <Profile />
                         </Route>
                         <Route exact path="/login">
                             <Landing

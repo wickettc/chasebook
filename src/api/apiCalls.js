@@ -41,4 +41,41 @@ const signup = async (
     }
 };
 
-export { login, signup };
+const createPost = async (body, author, token) => {
+    try {
+        const response = await axios.post(
+            `${baseURL}/post/post`,
+            {
+                body,
+                author,
+                meta: {
+                    likes: 0,
+                    comments: 0,
+                },
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+const getAllPosts = async (token) => {
+    try {
+        const response = await axios.get(`${baseURL}/post/posts`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+export { login, signup, createPost, getAllPosts };

@@ -1,9 +1,12 @@
 import React from 'react';
+import CreatePost from '../components/CreatePost';
+import PostFeed from '../components/PostFeed';
 
-const Home = () => {
+const Home = ({ token }) => {
     return (
         <div>
-            <div>Home</div>
+            <CreatePost token={token} />
+            <PostFeed token={token} />
         </div>
     );
 };
