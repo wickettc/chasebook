@@ -35,7 +35,7 @@ function App() {
                 <div className="app-container">
                     <Switch>
                         <Route exact path="/">
-                            <Home token={token} />
+                            <Home isLoggedIn={isLoggedIn} token={token} />
                         </Route>
                         <Route exact path="/profile">
                             <Profile />
