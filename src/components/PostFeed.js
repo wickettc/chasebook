@@ -1,8 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { getAllPosts } from '../api/apiCalls';
+import { getAllPosts, addLike } from '../api/apiCalls';
 import './PostFeed.css';
 
-const DisplayPost = ({ body, author, meta, date, id }) => {
+const DisplayPost = ({ body, author, comments, likes, date, token, id }) => {
+    const [alreadyLiked, setAlreadyLiked] = useState(null);
+
+    useEffect(() => {
+        console.log(likes);
+        likes.forEach(like => {
+            if (like.author === token.user._id) {
+                setAlreadyLiked(true)
+            }
+        })
+    }, []);
+
+    const handleLike = async () => {
+                                const res = await addLike(
+                                    id,
+                                    token.user._id,
+                                    token.token
+                                )
+                                console.log(res);
+    }
+
     return (
         <div className="post-container">
             <div className="post-container-body">{body}</div>
@@ -11,15 +31,14 @@ const DisplayPost = ({ body, author, meta, date, id }) => {
                 <div className="post-container-meta">
                     <div>
                         <span
-                            onClick={() => {
-                                // need to perform like API call here
-                            }}
+                            {...alreadyLiked ? null : {onClick={handleLike}}}
+                            
                         >
                             Like:
                         </span>{' '}
-                        {meta.likes.length}
+                        {likes.length}
                     </div>
-                    <div>Comments: {meta.comments.length}</div>
+                    <div>Comments: {comments.length}</div>
                 </div>
                 <div>
                     {author.firstname} {author.lastname}
@@ -52,14 +71,16 @@ const PostFeed = ({ token, updateFeed, setUpdateFeed }) => {
                 <div className="loader"></div>
             ) : (
                 posts.map((post) => {
-                    const { body, author, meta, _id, date } = post;
+                    const { body, author, comments, likes, _id, date } = post;
                     return (
                         <DisplayPost
                             key={_id}
                             id={_id}
+                            token={token}
                             body={body}
                             author={author}
-                            meta={meta}
+                            comments={comments}
+                            likes={likes}
                             date={date}
                         />
                     );

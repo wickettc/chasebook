@@ -74,8 +74,24 @@ const getAllPosts = async (token) => {
     }
 };
 
-const addLike = async (token) => {
-    // need to add like API POST here
+const addLike = async (forpostID, author, token) => {
+    try {
+        const response = await axios.post(
+            `${baseURL}/like/${forpostID}`,
+            {
+                forpostID,
+                author,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
 };
 
-export { login, signup, createPost, getAllPosts };
+export { login, signup, createPost, getAllPosts, addLike };
