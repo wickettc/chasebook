@@ -48,10 +48,6 @@ const createPost = async (body, author, token) => {
             {
                 body,
                 author,
-                meta: {
-                    likes: 0,
-                    comments: 0,
-                },
             },
             {
                 headers: {
@@ -76,6 +72,10 @@ const getAllPosts = async (token) => {
     } catch (err) {
         console.log(err);
     }
+};
+
+const addLike = async (token) => {
+    // need to add like API POST here
 };
 
 export { login, signup, createPost, getAllPosts };
