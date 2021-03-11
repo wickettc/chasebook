@@ -7,21 +7,20 @@ const DisplayPost = ({ body, author, comments, likes, date, token, id }) => {
 
     useEffect(() => {
         console.log(likes);
-        likes.forEach(like => {
+        likes.forEach((like) => {
             if (like.author === token.user._id) {
-                setAlreadyLiked(true)
+                setAlreadyLiked(true);
             }
-        })
+        });
     }, []);
 
     const handleLike = async () => {
-                                const res = await addLike(
-                                    id,
-                                    token.user._id,
-                                    token.token
-                                )
-                                console.log(res);
-    }
+        const res = await addLike(id, token.user._id, token.token);
+        console.log(res);
+        if (res.status === 200) {
+            setAlreadyLiked(true);
+        }
+    };
 
     return (
         <div className="post-container">
@@ -31,8 +30,13 @@ const DisplayPost = ({ body, author, comments, likes, date, token, id }) => {
                 <div className="post-container-meta">
                     <div>
                         <span
-                            {...alreadyLiked ? null : {onClick={handleLike}}}
-                            
+                            onClick={async () => {
+                                if (alreadyLiked) {
+                                    console.log('alreadyliked');
+                                } else {
+                                    await handleLike();
+                                }
+                            }}
                         >
                             Like:
                         </span>{' '}
