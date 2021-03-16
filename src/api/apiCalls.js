@@ -94,4 +94,24 @@ const addLike = async (forpostID, author, token) => {
     }
 };
 
-export { login, signup, createPost, getAllPosts, addLike };
+const removeLike = async (id, token) => {
+    try {
+        const response = await axios.post(
+            `${baseURL}/like/${id}`,
+            {
+                id,
+                // postID,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+export { login, signup, createPost, getAllPosts, addLike, removeLike };

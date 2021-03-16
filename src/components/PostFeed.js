@@ -1,25 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import { getAllPosts, addLike } from '../api/apiCalls';
+import { getAllPosts, addLike, removeLike } from '../api/apiCalls';
 import './PostFeed.css';
 
-const DisplayPost = ({ body, author, comments, likes, date, token, id }) => {
+const DisplayPost = ({
+    body,
+    author,
+    comments,
+    likes,
+    date,
+    token,
+    id,
+    setUpdateFeed,
+}) => {
     const [alreadyLiked, setAlreadyLiked] = useState(null);
+    const [alreadyLikedID, setAlreadyLikedID] = useState(null);
 
     useEffect(() => {
         console.log(likes);
         likes.forEach((like) => {
             if (like.author === token.user._id) {
                 setAlreadyLiked(true);
+                setAlreadyLikedID(like._id);
             }
         });
-    }, []);
+    }, [likes, token]);
 
     const handleLike = async () => {
         const res = await addLike(id, token.user._id, token.token);
         console.log(res);
         if (res.status === 200) {
             setAlreadyLiked(true);
+            setUpdateFeed(true);
         }
+    };
+
+    const handleRemoveLike = async () => {
+        const res = await removeLike(alreadyLikedID, token.token);
+        console.log(res);
+        setAlreadyLiked(false);
+        setAlreadyLikedID(null);
+        setUpdateFeed(true);
     };
 
     return (
@@ -32,13 +52,17 @@ const DisplayPost = ({ body, author, comments, likes, date, token, id }) => {
                         <span
                             onClick={async () => {
                                 if (alreadyLiked) {
-                                    console.log('alreadyliked');
+                                    await handleRemoveLike();
                                 } else {
                                     await handleLike();
                                 }
                             }}
                         >
-                            Like:
+                            {alreadyLiked ? (
+                                <span>Unlike:</span>
+                            ) : (
+                                <span>Like:</span>
+                            )}
                         </span>{' '}
                         {likes.length}
                     </div>
@@ -62,9 +86,16 @@ const PostFeed = ({ token, updateFeed, setUpdateFeed }) => {
             const res = await getAllPosts(token);
             console.log(res);
             /////// need error handling here
-            setPosts(res.data);
-            setLoading(false);
-            setUpdateFeed(false);
+            if (res) {
+                //reverse array to show newest first
+                let posts = res.data;
+                posts = posts.reverse();
+                setPosts(posts);
+                setLoading(false);
+                setUpdateFeed(false);
+            } else {
+                console.log('fetching error');
+            }
         }
         fetchPosts(token.token);
     }, [token, updateFeed, setUpdateFeed]);
@@ -86,6 +117,7 @@ const PostFeed = ({ token, updateFeed, setUpdateFeed }) => {
                             comments={comments}
                             likes={likes}
                             date={date}
+                            setUpdateFeed={setUpdateFeed}
                         />
                     );
                 })
