@@ -7,13 +7,16 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, token, setToken }) => {
 
     return (
         <nav className="navbar">
+            {console.log(token)}
             <Link className="navbar-clickable" to="/">
                 Home
             </Link>
-            {console.log(token)}
             {isLoggedIn ? (
-                <Link className="navbar-clickable" to="/profile">
-                    Profile
+                <Link
+                    className="navbar-clickable"
+                    to={`/profile/${token.user._id}`}
+                >
+                    My Profile
                 </Link>
             ) : null}
             {isLoggedIn ? (

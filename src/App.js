@@ -37,9 +37,13 @@ function App() {
                         <Route exact path="/">
                             <Home isLoggedIn={isLoggedIn} token={token} />
                         </Route>
-                        <Route exact path="/profile">
-                            <Profile />
-                        </Route>
+                        <Route
+                            exact
+                            path={`/profile/:id`}
+                            render={({ match }) => (
+                                <Profile match={match} token={token} />
+                            )}
+                        />
                         <Route exact path="/login">
                             <Landing
                                 isLoggedIn={isLoggedIn}
