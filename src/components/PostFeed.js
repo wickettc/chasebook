@@ -16,7 +16,6 @@ const DisplayPost = ({
     const [alreadyLikedID, setAlreadyLikedID] = useState(null);
 
     useEffect(() => {
-        console.log(likes);
         likes.forEach((like) => {
             if (like.author === token.user._id) {
                 setAlreadyLiked(true);
@@ -27,19 +26,23 @@ const DisplayPost = ({
 
     const handleLike = async () => {
         const res = await addLike(id, token.user._id, token.token);
-        console.log(res);
         if (res.status === 200) {
             setAlreadyLiked(true);
             setUpdateFeed(true);
+        } else {
+            // error popup
         }
     };
 
     const handleRemoveLike = async () => {
         const res = await removeLike(alreadyLikedID, token.token);
-        console.log(res);
-        setAlreadyLiked(false);
-        setAlreadyLikedID(null);
-        setUpdateFeed(true);
+        if (res.status === 204) {
+            setAlreadyLiked(false);
+            setAlreadyLikedID(null);
+            setUpdateFeed(true);
+        } else {
+            // error popup
+        }
     };
 
     return (
@@ -84,8 +87,7 @@ const PostFeed = ({ token, updateFeed, setUpdateFeed }) => {
     useEffect(() => {
         async function fetchPosts(token) {
             const res = await getAllPosts(token);
-            console.log(res);
-            /////// need error handling here
+            console.log('all posts', res.data);
             if (res) {
                 //reverse array to show newest first
                 let posts = res.data;
@@ -94,7 +96,7 @@ const PostFeed = ({ token, updateFeed, setUpdateFeed }) => {
                 setLoading(false);
                 setUpdateFeed(false);
             } else {
-                console.log('fetching error');
+                // error popup
             }
         }
         fetchPosts(token.token);

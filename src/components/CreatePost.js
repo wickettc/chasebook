@@ -13,10 +13,12 @@ const CreatePost = ({ token, setUpdateFeed }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const res = await createPost(body, e.target.author.value, token.token);
-        // need to setup error handling
-        console.log(res);
-        setBody('');
-        setUpdateFeed(true);
+        if (res.status === 201) {
+            setBody('');
+            setUpdateFeed(true);
+        } else {
+            // error popup
+        }
     };
 
     return (
@@ -24,6 +26,7 @@ const CreatePost = ({ token, setUpdateFeed }) => {
             <form className="create-post" onSubmit={handleSubmit}>
                 <input type="hidden" value={token.user._id} name="author" />
                 <textarea
+                    rows="4"
                     name="body"
                     value={body}
                     placeholder="Enter your post here..."

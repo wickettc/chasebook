@@ -96,18 +96,11 @@ const addLike = async (forpostID, author, token) => {
 
 const removeLike = async (id, token) => {
     try {
-        const response = await axios.post(
-            `${baseURL}/like/${id}`,
-            {
-                id,
-                // postID,
+        const response = await axios.delete(`${baseURL}/like/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
             },
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }
-        );
+        });
         return response;
     } catch (err) {
         console.log(err);
