@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { getUserProfile } from '../api/apiCalls';
+import _ from 'lodash';
+import './Profile.css';
 
 const Profile = ({ match, token }) => {
     const [isMyProfile, setIsMyProfile] = useState(false);
     const [curProfile, setCurProfile] = useState({});
+    const [isFriend, setIsFriend] = useState(false);
 
     useEffect(() => {
         if (match.params.id === token.user._id) {
@@ -11,14 +15,26 @@ const Profile = ({ match, token }) => {
     }, [match, token]);
 
     useEffect(() => {
-        if (isMyProfile) {
-            setCurProfile(token.user);
-        } else {
-            // fetch user profile if not mine
+        async function fetchUser(id, token) {
+            const res = await getUserProfile(id, token);
+            setCurProfile(res.data);
         }
-    }, [isMyProfile, token]);
+        fetchUser(match.params.id, token.token);
+    }, [match, token]);
 
-    return <div></div>;
+    return (
+        <div>
+            {_.isEmpty(curProfile) ? (
+                <div className="loading"></div>
+            ) : (
+                <div>
+                    <h1>
+                        {curProfile.firstname} {curProfile.lastname}
+                    </h1>
+                </div>
+            )}
+        </div>
+    );
 };
 
 export default Profile;

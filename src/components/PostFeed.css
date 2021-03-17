@@ -1,8 +1,6 @@
 .post-container {
     border: 1px solid black;
     margin-bottom: 5px;
-    /* display: flex;
-    flex-direction: column; */
 }
 
 .post-container * {
@@ -23,4 +21,13 @@
     display: flex;
     margin-left: 0;
     margin-top: 0;
+}
+
+.post-container-clickable {
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.post-container-clickable:hover {
+    color: blue;
 }

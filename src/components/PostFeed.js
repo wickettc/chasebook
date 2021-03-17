@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { getAllPosts, addLike, removeLike } from '../api/apiCalls';
 import './PostFeed.css';
 
@@ -62,9 +63,13 @@ const DisplayPost = ({
                             }}
                         >
                             {alreadyLiked ? (
-                                <span>Unlike:</span>
+                                <span className="post-container-clickable">
+                                    Unlike:
+                                </span>
                             ) : (
-                                <span>Like:</span>
+                                <span className="post-container-clickable">
+                                    Like:
+                                </span>
                             )}
                         </span>{' '}
                         {likes.length}
@@ -72,7 +77,9 @@ const DisplayPost = ({
                     <div>Comments: {comments.length}</div>
                 </div>
                 <div>
-                    {author.firstname} {author.lastname}
+                    <Link to={`/profile/${author._id}`}>
+                        {author.firstname} {author.lastname}
+                    </Link>
                 </div>
                 <div>Created at: {new Date(date).toLocaleTimeString()}</div>
             </div>

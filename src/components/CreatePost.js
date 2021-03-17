@@ -31,6 +31,7 @@ const CreatePost = ({ token, setUpdateFeed }) => {
                     value={body}
                     placeholder="Enter your post here..."
                     onChange={handleChange}
+                    required
                 />
                 <button>Create Post</button>
             </form>

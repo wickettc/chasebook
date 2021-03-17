@@ -107,4 +107,25 @@ const removeLike = async (id, token) => {
     }
 };
 
-export { login, signup, createPost, getAllPosts, addLike, removeLike };
+const getUserProfile = async (id, token) => {
+    try {
+        const response = await axios.get(`${baseURL}/user/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+export {
+    login,
+    signup,
+    createPost,
+    getAllPosts,
+    addLike,
+    removeLike,
+    getUserProfile,
+};
