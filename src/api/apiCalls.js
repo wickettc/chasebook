@@ -120,6 +120,26 @@ const getUserProfile = async (id, token) => {
     }
 };
 
+const sendFriendRequest = async (curUserID, reqUserID, token) => {
+    try {
+        const response = await axios.post(
+            `${baseURL}/user/addrequest`,
+            {
+                curUserID,
+                reqUserID,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 export {
     login,
     signup,
@@ -128,4 +148,5 @@ export {
     addLike,
     removeLike,
     getUserProfile,
+    sendFriendRequest,
 };
