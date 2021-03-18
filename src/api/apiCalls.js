@@ -123,7 +123,47 @@ const getUserProfile = async (id, token) => {
 const sendFriendRequest = async (curUserID, reqUserID, token) => {
     try {
         const response = await axios.post(
-            `${baseURL}/user/addrequest`,
+            `${baseURL}/user/sendrequest`,
+            {
+                curUserID,
+                reqUserID,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+const acceptFriendRequest = async (curUserID, reqUserID, token) => {
+    try {
+        const response = await axios.put(
+            `${baseURL}/user/acceptrequest`,
+            {
+                curUserID,
+                reqUserID,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+const denyFriendRequest = async (curUserID, reqUserID, token) => {
+    try {
+        const response = await axios.put(
+            `${baseURL}/user/denyrequest`,
             {
                 curUserID,
                 reqUserID,
@@ -149,4 +189,6 @@ export {
     removeLike,
     getUserProfile,
     sendFriendRequest,
+    acceptFriendRequest,
+    denyFriendRequest,
 };
