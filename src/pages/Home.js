@@ -18,6 +18,7 @@ const Home = ({ token, isLoggedIn }) => {
                         token={token}
                         updateFeed={updateFeed}
                         setUpdateFeed={setUpdateFeed}
+                        feedInfo={{ type: 'main' }}
                     />
                 </div>
             )}

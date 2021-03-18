@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import PostFeed from '../components/PostFeed';
 import {
     getUserProfile,
     sendFriendRequest,
     acceptFriendRequest,
     denyFriendRequest,
 } from '../api/apiCalls';
-// import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import _ from 'lodash';
 import './Profile.css';
 
@@ -16,12 +17,17 @@ const Profile = ({ match, token }) => {
     const [isFriendPending, setIsFriendPending] = useState(false);
     const [friendRequests, setFriendRequests] = useState([]);
     const [friends, setFriends] = useState([]);
+    const location = useLocation();
 
+    ///////////// PAGE LOAD /////////////
     useEffect(() => {
-        if (match.params.id === token.user._id) {
+        const curUserId = location.pathname.split('/')[2];
+        if (curUserId === token.user._id) {
             setIsMyProfile(true);
+        } else {
+            setIsMyProfile(false);
         }
-    }, [match, token]);
+    }, [token, location]);
 
     useEffect(() => {
         async function fetchUser(id, token) {
@@ -30,9 +36,8 @@ const Profile = ({ match, token }) => {
             setFriends(res.data.friends);
             setFriendRequests(res.data.friendrequests);
         }
-        console.log(match);
         fetchUser(match.params.id, token.token);
-    }, [match, token]);
+    }, [match, token, location]);
 
     useEffect(() => {
         if (token.user.friends.includes(curProfile._id)) {
@@ -52,7 +57,9 @@ const Profile = ({ match, token }) => {
             });
         }
     }, [curProfile, token]);
+    ///////////// PAGE LOAD /////////////
 
+    ///////////// FRIEND REQUESTS /////////////
     const handleSendFriendRequest = async () => {
         await sendFriendRequest(token.user._id, curProfile._id, token.token);
         setIsFriendPending(true);
@@ -65,6 +72,8 @@ const Profile = ({ match, token }) => {
         index
     ) => {
         await acceptFriendRequest(curUserID, reqUserID, token);
+        const newFriend = friendRequests[index];
+        setFriends([...friends, newFriend]);
         setFriendRequests([
             ...friendRequests.slice(0, index),
             ...friendRequests.slice(index + 1),
@@ -83,22 +92,28 @@ const Profile = ({ match, token }) => {
             ...friendRequests.slice(index + 1),
         ]);
     };
+    ///////////// FRIEND REQUESTS /////////////
 
     return (
         <div>
-            {console.log('curprofile', curProfile)}
-            {console.log('token', token)}
-            {/* {console.log('isfriend', isFriend)} */}
-            {/* {console.log('friends,', friends)} */}
-            {/* {console.log('friend requests,', friendRequests)} */}
             {_.isEmpty(curProfile) ? (
                 <div className="loading"></div>
             ) : (
                 <div>
                     <h1>
-                        {isMyProfile ? 'YOUR PROFILE' : null}{' '}
+                        {isMyProfile ? 'YOUR PROFILE' : null}
+                        <br />
                         {curProfile.firstname} {curProfile.lastname}
                     </h1>
+
+                    {/* POST FEED */}
+                    <PostFeed
+                        feedInfo={{
+                            type: 'users',
+                            userID: `${curProfile._id}`,
+                        }}
+                    />
+                    {/* POST FEED */}
 
                     {/* ADD FRIEND */}
                     {isMyProfile ? null : isFriend ? (
@@ -158,6 +173,23 @@ const Profile = ({ match, token }) => {
                         })
                     ) : null}
                     {/* FRIEND REQUESTS */}
+
+                    {/* SHOW FRIENDS */}
+                    <h3>Friends</h3>
+                    {_.isEmpty(friends) ? (
+                        <div>{curProfile.firstname} has no friends</div>
+                    ) : (
+                        friends.map((friend) => {
+                            return (
+                                <div key={friend._id}>
+                                    <Link to={`/profile/${friend._id}`}>
+                                        {friend.firstname} {friend.lastname}
+                                    </Link>
+                                </div>
+                            );
+                        })
+                    )}
+                    {/* SHOW FRIENDS */}
                 </div>
             )}
         </div>

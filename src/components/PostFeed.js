@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getAllPosts, addLike, removeLike } from '../api/apiCalls';
+import {
+    getAllPosts,
+    getPostsByUser,
+    addLike,
+    removeLike,
+} from '../api/apiCalls';
 import './PostFeed.css';
 
 const DisplayPost = ({
@@ -87,7 +92,7 @@ const DisplayPost = ({
     );
 };
 
-const PostFeed = ({ token, updateFeed, setUpdateFeed }) => {
+const PostFeed = ({ token, updateFeed, setUpdateFeed, feedInfo }) => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -106,8 +111,24 @@ const PostFeed = ({ token, updateFeed, setUpdateFeed }) => {
                 // error popup
             }
         }
-        fetchPosts(token.token);
-    }, [token, updateFeed, setUpdateFeed]);
+        async function fetchUsersPosts(userID, token) {
+            console.log('try fetch user posts');
+            const res = await getPostsByUser(userID, token);
+            console.log('userPosts', res);
+            if (res) {
+                let posts = res.data;
+                posts = posts.reverse();
+                setPosts(posts);
+                setLoading(false);
+                setUpdateFeed(false);
+            }
+        }
+        if (feedInfo.type === 'main') {
+            fetchPosts(token.token);
+        } else if (feedInfo.type === 'users') {
+            fetchUsersPosts(feedInfo.userID, token.token);
+        }
+    }, [token, updateFeed, setUpdateFeed, feedInfo]);
 
     return (
         <div>

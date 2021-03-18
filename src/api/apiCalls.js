@@ -74,6 +74,25 @@ const getAllPosts = async (token) => {
     }
 };
 
+const getPostsByUser = async (userID, token) => {
+    try {
+        const response = await axios.get(
+            `${baseURL}/post/posts`,
+            {
+                userID,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 const addLike = async (forpostID, author, token) => {
     try {
         const response = await axios.post(
@@ -185,6 +204,7 @@ export {
     signup,
     createPost,
     getAllPosts,
+    getPostsByUser,
     addLike,
     removeLike,
     getUserProfile,
