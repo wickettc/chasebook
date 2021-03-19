@@ -11,8 +11,6 @@ const AddComment = ({ id, token, setUpdateFeed }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        //add comment function
-        // pass in ID prop as forPostID
         const res = await createComment(id, body, token.user._id, token.token);
         if (res.status === 201) {
             // success

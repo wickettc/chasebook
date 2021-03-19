@@ -31,3 +31,9 @@
 .post-container-clickable:hover {
     color: blue;
 }
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

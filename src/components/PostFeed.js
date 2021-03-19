@@ -10,9 +10,15 @@ import {
 } from '../api/apiCalls';
 import './PostFeed.css';
 
-const DisplayComment = ({ comments }) => {
+const DisplayComment = ({ comments, setShowAddComment, showAddComment }) => {
     return (
         <div>
+            <div className="comment-header">
+                <h4>Comments</h4>
+                <button onClick={() => setShowAddComment(!showAddComment)}>
+                    Add Comment
+                </button>
+            </div>
             {comments.length > 0
                 ? comments.map((comment) => {
                       return (
@@ -56,6 +62,7 @@ const DisplayPost = ({
 }) => {
     const [alreadyLiked, setAlreadyLiked] = useState(null);
     const [alreadyLikedID, setAlreadyLikedID] = useState(null);
+    const [showComment, setShowComment] = useState(false);
     const [showAddComment, setShowAddComment] = useState(false);
 
     useEffect(() => {
@@ -118,7 +125,7 @@ const DisplayPost = ({
                     </div>
                     <div>
                         <span
-                            onClick={() => setShowAddComment(!showAddComment)}
+                            onClick={() => setShowComment(!showComment)}
                             className="post-container-clickable"
                         >
                             Comments:
@@ -143,8 +150,13 @@ const DisplayPost = ({
                 </div>
             </div>
             <hr />
-            <h4>Comments</h4>
-            <DisplayComment comments={comments} />
+            {showComment ? (
+                <DisplayComment
+                    setShowAddComment={setShowAddComment}
+                    showAddComment={showAddComment}
+                    comments={comments}
+                />
+            ) : null}
             {showAddComment ? (
                 <div>
                     <AddComment
