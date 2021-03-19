@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PostFeed from '../components/PostFeed';
+import CreatePost from '../components/CreatePost';
 import {
     getUserProfile,
     sendFriendRequest,
@@ -11,6 +12,8 @@ import _ from 'lodash';
 import './Profile.css';
 
 const Profile = ({ match, token }) => {
+    // pass to create post / post feed to rerender
+    const [updateFeed, setUpdateFeed] = useState(false);
     const [isMyProfile, setIsMyProfile] = useState(false);
     const [curProfile, setCurProfile] = useState({});
     const [isFriend, setIsFriend] = useState(false);
@@ -106,8 +109,19 @@ const Profile = ({ match, token }) => {
                         {curProfile.firstname} {curProfile.lastname}
                     </h1>
 
+                    {/* CREATE POST ON YOUR PROFILE */}
+                    {isMyProfile ? (
+                        <CreatePost
+                            token={token}
+                            setUpdateFeed={setUpdateFeed}
+                        />
+                    ) : null}
+                    {/* CREATE POST */}
+
                     {/* POST FEED */}
                     <PostFeed
+                        setUpdateFeed={setUpdateFeed}
+                        token={token}
                         feedInfo={{
                             type: 'users',
                             userID: `${curProfile._id}`,

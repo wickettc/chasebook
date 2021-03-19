@@ -77,10 +77,7 @@ const getAllPosts = async (token) => {
 const getPostsByUser = async (userID, token) => {
     try {
         const response = await axios.get(
-            `${baseURL}/post/posts`,
-            {
-                userID,
-            },
+            `${baseURL}/post/postsbyuser/${userID}`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,

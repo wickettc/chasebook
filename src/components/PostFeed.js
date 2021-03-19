@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import _ from 'lodash';
 import {
     getAllPosts,
     getPostsByUser,
@@ -112,9 +113,8 @@ const PostFeed = ({ token, updateFeed, setUpdateFeed, feedInfo }) => {
             }
         }
         async function fetchUsersPosts(userID, token) {
-            console.log('try fetch user posts');
             const res = await getPostsByUser(userID, token);
-            console.log('userPosts', res);
+            console.log('userPosts', res.data);
             if (res) {
                 let posts = res.data;
                 posts = posts.reverse();
@@ -134,6 +134,8 @@ const PostFeed = ({ token, updateFeed, setUpdateFeed, feedInfo }) => {
         <div>
             {loading ? (
                 <div className="loader"></div>
+            ) : _.isEmpty(posts) ? (
+                <div>No Posts to Display</div>
             ) : (
                 posts.map((post) => {
                     const { body, author, comments, likes, _id, date } = post;
