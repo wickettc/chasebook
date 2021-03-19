@@ -93,9 +93,9 @@ const getPostsByUser = async (userID, token) => {
 
 const getPostsFromFriends = async (friendsArr, token) => {
     try {
-        const response = await axios.get(`${baseURL}//postsfromfriends`, {
+        const response = await axios.get(`${baseURL}/post/postsfromfriends`, {
             params: {
-                friendsArr,
+                friendsArr: friendsArr,
             },
             paramsSerializer: (params) => {
                 return qs.stringify(params);

@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import DisplayPost from './DisplayPost';
 import _ from 'lodash';
-import { getAllPosts, getPostsByUser } from '../api/apiCalls';
+import {
+    getAllPosts,
+    getPostsByUser,
+    getPostsFromFriends,
+} from '../api/apiCalls';
 import './PostFeed.css';
 
 const PostFeed = ({ token, updateFeed, setUpdateFeed, feedInfo }) => {
@@ -34,10 +38,25 @@ const PostFeed = ({ token, updateFeed, setUpdateFeed, feedInfo }) => {
                 setUpdateFeed(false);
             }
         }
+
+        async function fetchFriendsPosts(friendsArr, token) {
+            const res = await getPostsFromFriends(friendsArr, token);
+            console.log('friendsPosts,', res.data);
+            if (res) {
+                let posts = res.data;
+                // maybe reverse posts here
+                setPosts(posts);
+                setLoading(false);
+                setUpdateFeed(false);
+            }
+        }
+
         if (feedInfo.type === 'main') {
             fetchPosts(token.token);
         } else if (feedInfo.type === 'users') {
             fetchUsersPosts(feedInfo.userID, token.token);
+        } else if (feedInfo.type === 'friends') {
+            fetchFriendsPosts(token.user.friends, token.token);
         }
     }, [token, updateFeed, setUpdateFeed, feedInfo]);
 
