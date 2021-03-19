@@ -1,4 +1,5 @@
 import axios from 'axios';
+import qs from 'qs';
 
 const baseURL = 'http://localhost:3000';
 
@@ -84,6 +85,25 @@ const getPostsByUser = async (userID, token) => {
                 },
             }
         );
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+const getPostsFromFriends = async (friendsArr, token) => {
+    try {
+        const response = await axios.get(`${baseURL}//postsfromfriends`, {
+            params: {
+                friendsArr,
+            },
+            paramsSerializer: (params) => {
+                return qs.stringify(params);
+            },
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
         return response;
     } catch (err) {
         console.log(err);
@@ -223,6 +243,7 @@ export {
     createPost,
     getAllPosts,
     getPostsByUser,
+    getPostsFromFriends,
     addLike,
     removeLike,
     createComment,
