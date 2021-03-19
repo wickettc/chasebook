@@ -123,6 +123,27 @@ const removeLike = async (id, token) => {
     }
 };
 
+const createComment = async (forpost, body, author, token) => {
+    try {
+        const response = await axios.post(
+            `${baseURL}/comment/`,
+            {
+                forpost,
+                body,
+                author,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 const getUserProfile = async (id, token) => {
     try {
         const response = await axios.get(`${baseURL}/user/${id}`, {
@@ -204,6 +225,7 @@ export {
     getPostsByUser,
     addLike,
     removeLike,
+    createComment,
     getUserProfile,
     sendFriendRequest,
     acceptFriendRequest,

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import AddComment from './AddComment';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import {
@@ -8,6 +9,40 @@ import {
     removeLike,
 } from '../api/apiCalls';
 import './PostFeed.css';
+
+const DisplayComment = ({ comments }) => {
+    return (
+        <div>
+            {comments.length > 0
+                ? comments.map((comment) => {
+                      return (
+                          <div key={comment._id}>
+                              <hr />
+                              <div>{comment.body}</div>
+                              <div>
+                                  {comment.author.firstname}{' '}
+                                  {comment.author.lastname}
+                              </div>
+                              <div>
+                                  Created:{' '}
+                                  {new Date(comment.date).toLocaleTimeString(
+                                      'en-US',
+                                      {
+                                          day: 'numeric',
+                                          hour: 'numeric',
+                                          minute: 'numeric',
+                                          month: 'short',
+                                          year: 'numeric',
+                                      }
+                                  )}
+                              </div>
+                          </div>
+                      );
+                  })
+                : 'No comments yet...'}
+        </div>
+    );
+};
 
 const DisplayPost = ({
     body,
@@ -21,6 +56,7 @@ const DisplayPost = ({
 }) => {
     const [alreadyLiked, setAlreadyLiked] = useState(null);
     const [alreadyLikedID, setAlreadyLikedID] = useState(null);
+    const [showAddComment, setShowAddComment] = useState(false);
 
     useEffect(() => {
         likes.forEach((like) => {
@@ -80,15 +116,44 @@ const DisplayPost = ({
                         </span>{' '}
                         {likes.length}
                     </div>
-                    <div>Comments: {comments.length}</div>
+                    <div>
+                        <span
+                            onClick={() => setShowAddComment(!showAddComment)}
+                            className="post-container-clickable"
+                        >
+                            Comments:
+                        </span>{' '}
+                        {comments.length}
+                    </div>
                 </div>
                 <div>
                     <Link to={`/profile/${author._id}`}>
                         {author.firstname} {author.lastname}
                     </Link>
                 </div>
-                <div>Created at: {new Date(date).toLocaleTimeString()}</div>
+                <div>
+                    Created:{' '}
+                    {new Date(date).toLocaleTimeString('en-US', {
+                        day: 'numeric',
+                        hour: 'numeric',
+                        minute: 'numeric',
+                        month: 'short',
+                        year: 'numeric',
+                    })}
+                </div>
             </div>
+            <hr />
+            <h4>Comments</h4>
+            <DisplayComment comments={comments} />
+            {showAddComment ? (
+                <div>
+                    <AddComment
+                        setUpdateFeed={setUpdateFeed}
+                        id={id}
+                        token={token}
+                    />
+                </div>
+            ) : null}
         </div>
     );
 };

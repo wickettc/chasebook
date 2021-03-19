@@ -1,0 +1,13 @@
+.add-comment {
+    display: flex;
+    padding: 15px;
+    border: 0.5px solid black;
+    margin-bottom: 5px;
+}
+
+.add-comment textarea {
+    padding: 10px;
+    width: 100%;
+    resize: none;
+    overflow-y: scroll;
+}
