@@ -18,6 +18,11 @@ button:hover {
     transform: scale(1.1);
 }
 
+.date {
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
 .loader {
     border: 16px solid #f3f3f3;
     border-top: 16px solid black;

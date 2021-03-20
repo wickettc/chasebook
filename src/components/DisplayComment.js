@@ -1,4 +1,5 @@
 import React from 'react';
+import calcTimeSince from '../utils/calcTimeSince';
 import './DisplayComment.css';
 
 const DisplayComment = ({ comments, setShowAddComment, showAddComment }) => {
@@ -20,18 +21,8 @@ const DisplayComment = ({ comments, setShowAddComment, showAddComment }) => {
                                   {comment.author.firstname}{' '}
                                   {comment.author.lastname}
                               </div>
-                              <div>
-                                  Created:{' '}
-                                  {new Date(comment.date).toLocaleTimeString(
-                                      'en-US',
-                                      {
-                                          day: 'numeric',
-                                          hour: 'numeric',
-                                          minute: 'numeric',
-                                          month: 'short',
-                                          year: 'numeric',
-                                      }
-                                  )}
+                              <div className="date">
+                                  {calcTimeSince(comment.date)}
                               </div>
                           </div>
                       );

@@ -15,6 +15,7 @@ import './App.css';
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [token, setToken] = useState(null);
+    const [updateFeed, setUpdateFeed] = useState(false);
 
     useEffect(() => {
         if (token) {
@@ -35,13 +36,23 @@ function App() {
                 <div className="app-container">
                     <Switch>
                         <Route exact path="/">
-                            <Home isLoggedIn={isLoggedIn} token={token} />
+                            <Home
+                                setUpdateFeed={setUpdateFeed}
+                                updateFeed={updateFeed}
+                                isLoggedIn={isLoggedIn}
+                                token={token}
+                            />
                         </Route>
                         <Route
                             exact
                             path={`/profile/:id`}
                             render={({ match }) => (
-                                <Profile match={match} token={token} />
+                                <Profile
+                                    setUpdateFeed={setUpdateFeed}
+                                    match={match}
+                                    isLoggedIn={isLoggedIn}
+                                    token={token}
+                                />
                             )}
                         />
                         <Route exact path="/login">

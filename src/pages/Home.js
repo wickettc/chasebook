@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import CreatePost from "../components/CreatePost";
-import PostFeed from "../components/PostFeed";
-import { Redirect } from "react-router-dom";
+import React, { useState } from 'react';
+import CreatePost from '../components/CreatePost';
+import PostFeed from '../components/PostFeed';
+import { Redirect } from 'react-router-dom';
+import './Home.css';
 
-const Home = ({ token, isLoggedIn }) => {
-    // pass to create post / post feed to rerender
-    const [updateFeed, setUpdateFeed] = useState(false);
-    const [feedType, setFeedType] = useState({ type: "main" });
+const Home = ({ token, isLoggedIn, setUpdateFeed, updateFeed }) => {
+    const [feedType, setFeedType] = useState({ type: 'main' });
+    const [whichBtnActive, setWhichBtnActive] = useState(true);
 
     return (
         <div>
@@ -14,17 +14,27 @@ const Home = ({ token, isLoggedIn }) => {
                 <Redirect to="/login" />
             ) : (
                 <div>
-                    <div>
-                        <button onClick={() => setFeedType({ type: "main" })}>
+                    <CreatePost token={token} setUpdateFeed={setUpdateFeed} />
+                    <div className="home-buttons-container">
+                        <button
+                            className={whichBtnActive ? 'home-btn-active' : ''}
+                            onClick={() => {
+                                setFeedType({ type: 'main' });
+                                setWhichBtnActive(true);
+                            }}
+                        >
                             World Feed
                         </button>
                         <button
-                            onClick={() => setFeedType({ type: "friends" })}
+                            className={!whichBtnActive ? 'home-btn-active' : ''}
+                            onClick={() => {
+                                setFeedType({ type: 'friends' });
+                                setWhichBtnActive(false);
+                            }}
                         >
                             Friends Feed
                         </button>
                     </div>
-                    <CreatePost token={token} setUpdateFeed={setUpdateFeed} />
                     <PostFeed
                         token={token}
                         updateFeed={updateFeed}

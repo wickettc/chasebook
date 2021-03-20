@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import DisplayComment from './DisplayComment';
 import AddComment from './AddComment';
-
 import { addLike, removeLike } from '../api/apiCalls';
+import calcTimeSince from '../utils/calcTimeSince';
 import { Link } from 'react-router-dom';
+import './DisplayPost.css';
 
 const DisplayPost = ({
     body,
@@ -55,53 +56,61 @@ const DisplayPost = ({
             <div className="post-container-body">{body}</div>
             <hr />
             <div className="post-container-rest">
-                <div className="post-container-meta">
-                    <div>
-                        <span
-                            onClick={async () => {
-                                if (alreadyLiked) {
-                                    await handleRemoveLike();
-                                } else {
-                                    await handleLike();
-                                }
-                            }}
-                        >
-                            {alreadyLiked ? (
-                                <span className="post-container-clickable">
-                                    Unlike:
-                                </span>
-                            ) : (
-                                <span className="post-container-clickable">
-                                    Like:
-                                </span>
-                            )}
-                        </span>{' '}
-                        {likes.length}
-                    </div>
-                    <div>
-                        <span
-                            onClick={() => setShowComment(!showComment)}
-                            className="post-container-clickable"
-                        >
-                            Comments:
-                        </span>{' '}
-                        {comments.length}
-                    </div>
+                <div className="post-container-like">
+                    <span
+                        onClick={async () => {
+                            if (alreadyLiked) {
+                                await handleRemoveLike();
+                            } else {
+                                await handleLike();
+                            }
+                        }}
+                    >
+                        {alreadyLiked ? (
+                            <span className="post-container-clickable">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="red"
+                                >
+                                    <path d="M12 4.248c-3.148-5.402-12-3.825-12 2.944 0 4.661 5.571 9.427 12 15.808 6.43-6.381 12-11.147 12-15.808 0-6.792-8.875-8.306-12-2.944z" />
+                                </svg>
+                            </span>
+                        ) : (
+                            <span className="post-container-clickable">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="gray"
+                                >
+                                    <path d="M12 4.248c-3.148-5.402-12-3.825-12 2.944 0 4.661 5.571 9.427 12 15.808 6.43-6.381 12-11.147 12-15.808 0-6.792-8.875-8.306-12-2.944z" />
+                                </svg>
+                            </span>
+                        )}
+                    </span>
+                    <span className="post-like-count">{likes.length}</span>
                 </div>
-                <div>
+                <div className="post-container-comment">
+                    <span
+                        onClick={() => setShowComment(!showComment)}
+                        className="post-container-clickable"
+                    >
+                        Comments:
+                    </span>{' '}
+                    {comments.length}
+                </div>
+
+                <div className="post-container-author">
                     <Link to={`/profile/${author._id}`}>
                         {author.firstname} {author.lastname}
                     </Link>
                 </div>
-                <div>
-                    Created:{' '}
-                    {new Date(date).toLocaleTimeString('en-US', {
-                        day: 'numeric',
-                        hour: 'numeric',
-                        minute: 'numeric',
-                        month: 'short',
-                        year: 'numeric',
-                    })}
+                <div className="post-container-date date">
+                    {calcTimeSince(date)}
                 </div>
             </div>
             <hr />

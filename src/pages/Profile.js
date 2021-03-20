@@ -6,21 +6,21 @@ import {
     sendFriendRequest,
     acceptFriendRequest,
     denyFriendRequest,
+    removeFriend,
 } from '../api/apiCalls';
 import { Link, useLocation } from 'react-router-dom';
 import _ from 'lodash';
 import './Profile.css';
+import { Redirect } from 'react-router-dom';
 
-const Profile = ({ match, token }) => {
-    // pass to create post / post feed to rerender
-    const [updateFeed, setUpdateFeed] = useState(false);
+const Profile = ({ match, token, isLoggedIn, setUpdateFeed }) => {
     const [isMyProfile, setIsMyProfile] = useState(false);
     const [curProfile, setCurProfile] = useState({});
     const [isFriend, setIsFriend] = useState(false);
     const [isFriendPending, setIsFriendPending] = useState(false);
     const [friendRequests, setFriendRequests] = useState([]);
     const [friends, setFriends] = useState([]);
-    const location = useLocation();
+    let location = useLocation();
 
     ///////////// PAGE LOAD /////////////
     useEffect(() => {
@@ -95,10 +95,18 @@ const Profile = ({ match, token }) => {
             ...friendRequests.slice(index + 1),
         ]);
     };
+
+    const handleRemoveFriend = async (curUserID, reqUserID, token) => {
+        await removeFriend(curUserID, reqUserID, token);
+        setIsFriend(false);
+    };
     ///////////// FRIEND REQUESTS /////////////
 
     return (
         <div>
+            {console.log('user, ', token.user)}
+            {console.log('curprofile, ', curProfile)}
+            {!isLoggedIn ? <Redirect to="/login" /> : null}
             {_.isEmpty(curProfile) ? (
                 <div className="loading"></div>
             ) : (
@@ -140,6 +148,22 @@ const Profile = ({ match, token }) => {
                         </button>
                     )}
                     {/* ADD FRIEND */}
+                    {console.log(isFriend)}
+                    {/* REMOVE FRIEND */}
+                    {!isMyProfile && isFriend ? (
+                        <button
+                            onClick={() =>
+                                handleRemoveFriend(
+                                    token.user._id,
+                                    curProfile._id,
+                                    token.token
+                                )
+                            }
+                        >
+                            Remove Friend
+                        </button>
+                    ) : null}
+                    {/* REMOVE FRIEND */}
 
                     {/* FRIEND REQUESTS */}
                     {isMyProfile ? <h3>Friend Requests</h3> : null}
@@ -150,11 +174,6 @@ const Profile = ({ match, token }) => {
                             return (
                                 <div key={eachRequest._id}>
                                     <span>
-                                        {/* <Link
-                                            to={`/profile/${eachRequest._id}`}
-                                        >
-                                            {eachRequest.firstname}
-                                        </Link>{' '} */}
                                         {eachRequest.firstname} wants to be
                                         friends!
                                     </span>

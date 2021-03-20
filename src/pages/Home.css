@@ -1,0 +1,17 @@
+.home-buttons-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.home-buttons-container button {
+    width: 100%;
+}
+
+.home-btn-active {
+    background: black;
+    color: white;
+}
+
+.home-buttons-container button:hover {
+    transform: scale(1);
+}

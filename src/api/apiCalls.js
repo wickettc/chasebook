@@ -237,6 +237,23 @@ const denyFriendRequest = async (curUserID, reqUserID, token) => {
     }
 };
 
+const removeFriend = async (curUserID, reqUserID, token) => {
+    try {
+        const response = await axios.put(
+            `${baseURL}/user/removefriend`,
+            { curUserID, reqUserID },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 export {
     login,
     signup,
@@ -251,4 +268,5 @@ export {
     sendFriendRequest,
     acceptFriendRequest,
     denyFriendRequest,
+    removeFriend,
 };
