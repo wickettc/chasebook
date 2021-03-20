@@ -50,6 +50,8 @@ function App() {
                             path={`/profile/:id`}
                             render={({ match }) => (
                                 <Profile
+                                    curUser={curUser}
+                                    setCurUser={setCurUser}
                                     setUpdateFeed={setUpdateFeed}
                                     match={match}
                                     isLoggedIn={isLoggedIn}

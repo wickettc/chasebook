@@ -8,6 +8,7 @@ import './DisplayPost.css';
 
 const DisplayPost = ({
     body,
+    curUser,
     author,
     comments,
     likes,
@@ -23,15 +24,15 @@ const DisplayPost = ({
 
     useEffect(() => {
         likes.forEach((like) => {
-            if (like.author === token.user._id) {
+            if (like.author === curUser._id) {
                 setAlreadyLiked(true);
                 setAlreadyLikedID(like._id);
             }
         });
-    }, [likes, token]);
+    }, [likes, token, curUser]);
 
     const handleLike = async () => {
-        const res = await addLike(id, token.user._id, token.token);
+        const res = await addLike(id, curUser._id, token.token);
         if (res.status === 200) {
             setAlreadyLiked(true);
             setUpdateFeed(true);
@@ -124,6 +125,7 @@ const DisplayPost = ({
             {showAddComment ? (
                 <div>
                     <AddComment
+                        curUser={curUser}
                         setUpdateFeed={setUpdateFeed}
                         id={id}
                         token={token}

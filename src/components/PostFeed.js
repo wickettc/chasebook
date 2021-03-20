@@ -8,7 +8,7 @@ import {
 } from '../api/apiCalls';
 import './PostFeed.css';
 
-const PostFeed = ({ token, updateFeed, setUpdateFeed, feedInfo }) => {
+const PostFeed = ({ token, updateFeed, setUpdateFeed, feedInfo, curUser }) => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -56,9 +56,9 @@ const PostFeed = ({ token, updateFeed, setUpdateFeed, feedInfo }) => {
         } else if (feedInfo.type === 'users') {
             fetchUsersPosts(feedInfo.userID, token.token);
         } else if (feedInfo.type === 'friends') {
-            fetchFriendsPosts(token.user.friends, token.token);
+            fetchFriendsPosts(curUser.friends, token.token);
         }
-    }, [token, updateFeed, setUpdateFeed, feedInfo]);
+    }, [token, curUser, updateFeed, setUpdateFeed, feedInfo]);
 
     return (
         <div>
@@ -72,6 +72,7 @@ const PostFeed = ({ token, updateFeed, setUpdateFeed, feedInfo }) => {
                     return (
                         <DisplayPost
                             key={_id}
+                            curUser={curUser}
                             id={_id}
                             token={token}
                             body={body}

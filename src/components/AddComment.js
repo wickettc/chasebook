@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { createComment } from "../api/apiCalls";
-import "./AddComment.css";
+import React, { useState } from 'react';
+import { createComment } from '../api/apiCalls';
+import './AddComment.css';
 
-const AddComment = ({ id, token, setUpdateFeed }) => {
-    const [body, setBody] = useState("");
+const AddComment = ({ id, token, setUpdateFeed, curUser }) => {
+    const [body, setBody] = useState('');
 
     const handleChange = (e) => {
         setBody(e.target.value);
@@ -11,10 +11,10 @@ const AddComment = ({ id, token, setUpdateFeed }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const res = await createComment(id, body, token.user._id, token.token);
+        const res = await createComment(id, body, curUser._id, token.token);
         if (res.status === 201) {
             // success
-            setBody("");
+            setBody('');
             setUpdateFeed(true);
         } else {
             // failed

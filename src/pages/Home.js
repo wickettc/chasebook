@@ -37,6 +37,7 @@ const Home = ({ token, isLoggedIn, setUpdateFeed, updateFeed, curUser }) => {
                         </button>
                     </div>
                     <PostFeed
+                        curUser={curUser}
                         token={token}
                         updateFeed={updateFeed}
                         setUpdateFeed={setUpdateFeed}

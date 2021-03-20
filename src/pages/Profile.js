@@ -13,7 +13,14 @@ import _ from 'lodash';
 import './Profile.css';
 import { Redirect } from 'react-router-dom';
 
-const Profile = ({ match, token, isLoggedIn, setUpdateFeed }) => {
+const Profile = ({
+    match,
+    token,
+    isLoggedIn,
+    setUpdateFeed,
+    curUser,
+    setCurUser,
+}) => {
     const [isMyProfile, setIsMyProfile] = useState(false);
     const [curProfile, setCurProfile] = useState({});
     const [isFriend, setIsFriend] = useState(false);
@@ -25,12 +32,12 @@ const Profile = ({ match, token, isLoggedIn, setUpdateFeed }) => {
     ///////////// PAGE LOAD /////////////
     useEffect(() => {
         const curUserId = location.pathname.split('/')[2];
-        if (curUserId === token.user._id) {
+        if (curUserId === curUser._id) {
             setIsMyProfile(true);
         } else {
             setIsMyProfile(false);
         }
-    }, [token, location]);
+    }, [curUser, location]);
 
     useEffect(() => {
         async function fetchUser(id, token) {
@@ -43,28 +50,33 @@ const Profile = ({ match, token, isLoggedIn, setUpdateFeed }) => {
     }, [match, token, location]);
 
     useEffect(() => {
-        if (token.user.friends.includes(curProfile._id)) {
+        if (curUser.friends.includes(curProfile._id)) {
             setIsFriend(true);
         }
         if (curProfile.friendrequests) {
             curProfile.friendrequests.filter((req) => {
-                return req._id === token.user._id
+                return req._id === curUser._id
                     ? setIsFriendPending(true)
                     : null;
             });
         }
         // prevents user from sending request to someone who already requested them
-        if (token.user.friendrequests && !_.isEmpty(curProfile)) {
-            token.user.friendrequests.filter((req) => {
+        if (curUser.friendrequests && !_.isEmpty(curProfile)) {
+            curUser.friendrequests.filter((req) => {
                 return req === curProfile._id ? setIsFriendPending(true) : null;
             });
         }
-    }, [curProfile, token]);
+    }, [curProfile, curUser]);
     ///////////// PAGE LOAD /////////////
 
     ///////////// FRIEND REQUESTS /////////////
     const handleSendFriendRequest = async () => {
-        await sendFriendRequest(token.user._id, curProfile._id, token.token);
+        const res = await sendFriendRequest(
+            curUser._id,
+            curProfile._id,
+            token.token
+        );
+        console.log(res);
         setIsFriendPending(true);
     };
 
@@ -74,7 +86,8 @@ const Profile = ({ match, token, isLoggedIn, setUpdateFeed }) => {
         token,
         index
     ) => {
-        await acceptFriendRequest(curUserID, reqUserID, token);
+        const res = await acceptFriendRequest(curUserID, reqUserID, token);
+        setCurUser(res.data.addFriend1);
         const newFriend = friendRequests[index];
         setFriends([...friends, newFriend]);
         setFriendRequests([
@@ -89,22 +102,25 @@ const Profile = ({ match, token, isLoggedIn, setUpdateFeed }) => {
         token,
         index
     ) => {
-        await denyFriendRequest(curUserID, reqUserID, token);
-        setFriendRequests([
-            ...friendRequests.slice(0, index),
-            ...friendRequests.slice(index + 1),
-        ]);
+        const res = await denyFriendRequest(curUserID, reqUserID, token);
+        setCurUser(res.data);
+        // setFriendRequests([
+        //     ...friendRequests.slice(0, index),
+        //     ...friendRequests.slice(index + 1),
+        // ]);
     };
 
     const handleRemoveFriend = async (curUserID, reqUserID, token) => {
-        await removeFriend(curUserID, reqUserID, token);
+        const res = await removeFriend(curUserID, reqUserID, token);
+        console.log(res.data);
+        setCurUser(res.data.firstRemoval);
         setIsFriend(false);
     };
     ///////////// FRIEND REQUESTS /////////////
 
     return (
         <div>
-            {console.log('user, ', token.user)}
+            {console.log('curUser,', curUser)}
             {console.log('curprofile, ', curProfile)}
             {!isLoggedIn ? <Redirect to="/login" /> : null}
             {_.isEmpty(curProfile) ? (
@@ -128,6 +144,7 @@ const Profile = ({ match, token, isLoggedIn, setUpdateFeed }) => {
 
                     {/* POST FEED */}
                     <PostFeed
+                        curUser={curUser}
                         setUpdateFeed={setUpdateFeed}
                         token={token}
                         feedInfo={{
@@ -148,13 +165,13 @@ const Profile = ({ match, token, isLoggedIn, setUpdateFeed }) => {
                         </button>
                     )}
                     {/* ADD FRIEND */}
-                    {console.log(isFriend)}
+
                     {/* REMOVE FRIEND */}
                     {!isMyProfile && isFriend ? (
                         <button
                             onClick={() =>
                                 handleRemoveFriend(
-                                    token.user._id,
+                                    curUser._id,
                                     curProfile._id,
                                     token.token
                                 )
@@ -180,7 +197,7 @@ const Profile = ({ match, token, isLoggedIn, setUpdateFeed }) => {
                                     <button
                                         onClick={() =>
                                             handleAcceptFriendRequest(
-                                                token.user._id,
+                                                curUser._id,
                                                 eachRequest._id,
                                                 token.token,
                                                 index
@@ -192,7 +209,7 @@ const Profile = ({ match, token, isLoggedIn, setUpdateFeed }) => {
                                     <button
                                         onClick={() =>
                                             handleDenyFriendRequest(
-                                                token.user._id,
+                                                curUser._id,
                                                 eachRequest._id,
                                                 token.token,
                                                 index
