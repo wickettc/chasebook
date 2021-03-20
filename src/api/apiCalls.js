@@ -42,6 +42,19 @@ const signup = async (
     }
 };
 
+// const updateUserInfo = async (userID, token) => {
+//     try {
+//         const response = await axios.get(`${baseURL}/user/${userID}`, {
+//             headers: {
+//                 Authorization: `Bearer ${token}`,
+//             },
+//         });
+//         return response;
+//     } catch (err) {
+//         console.log(err);
+//     }
+// };
+
 const createPost = async (body, author, token) => {
     try {
         const response = await axios.post(

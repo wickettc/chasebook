@@ -4,12 +4,13 @@ import PostFeed from '../components/PostFeed';
 import { Redirect } from 'react-router-dom';
 import './Home.css';
 
-const Home = ({ token, isLoggedIn, setUpdateFeed, updateFeed }) => {
+const Home = ({ token, isLoggedIn, setUpdateFeed, updateFeed, curUser }) => {
     const [feedType, setFeedType] = useState({ type: 'main' });
     const [whichBtnActive, setWhichBtnActive] = useState(true);
 
     return (
         <div>
+            {console.log('curUser,', curUser)}
             {!isLoggedIn ? (
                 <Redirect to="/login" />
             ) : (

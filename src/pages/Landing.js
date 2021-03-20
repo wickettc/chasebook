@@ -3,7 +3,13 @@ import { Redirect } from 'react-router-dom';
 import Signup from '../components/Signup';
 import Login from '../components/Login';
 
-const Landing = ({ isLoggedIn, setIsLoggedIn, setToken }) => {
+const Landing = ({
+    isLoggedIn,
+    setIsLoggedIn,
+    setToken,
+    curUser,
+    setCurUser,
+}) => {
     const [showSignup, setShowSignup] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
 
@@ -31,8 +37,12 @@ const Landing = ({ isLoggedIn, setIsLoggedIn, setToken }) => {
                 >
                     Log In
                 </button>
-                {showSignup ? <Signup setToken={setToken} /> : null}
-                {showLogin ? <Login setToken={setToken} /> : null}
+                {showSignup ? (
+                    <Signup setToken={setToken} setCurUser={setCurUser} />
+                ) : null}
+                {showLogin ? (
+                    <Login setToken={setToken} setCurUser={setCurUser} />
+                ) : null}
             </div>
         </div>
     );

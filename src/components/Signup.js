@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { signup, login } from '../api/apiCalls';
 
-const Signup = ({ setToken }) => {
+const Signup = ({ setToken, setCurUser }) => {
     const [email, setEmail] = useState('');
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
@@ -50,6 +50,7 @@ const Signup = ({ setToken }) => {
                 // after successful signup go ahead and login user
                 const loginRes = await login(obj.email, obj.password);
                 console.log(loginRes);
+                setCurUser(loginRes.data.user);
                 setToken(loginRes.data);
             }
         }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { login } from '../api/apiCalls';
 
-const Login = ({ setToken }) => {
+const Login = ({ setToken, setCurUser }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -19,6 +19,7 @@ const Login = ({ setToken }) => {
         const res = await login(email, password);
         if (res.status === 200) {
             setToken(res.data);
+            setCurUser(res.data.user);
         }
     };
 

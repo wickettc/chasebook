@@ -15,6 +15,7 @@ import './App.css';
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [token, setToken] = useState(null);
+    const [curUser, setCurUser] = useState({});
     const [updateFeed, setUpdateFeed] = useState(false);
 
     useEffect(() => {
@@ -37,6 +38,7 @@ function App() {
                     <Switch>
                         <Route exact path="/">
                             <Home
+                                curUser={curUser}
                                 setUpdateFeed={setUpdateFeed}
                                 updateFeed={updateFeed}
                                 isLoggedIn={isLoggedIn}
@@ -57,6 +59,8 @@ function App() {
                         />
                         <Route exact path="/login">
                             <Landing
+                                curUser={curUser}
+                                setCurUser={setCurUser}
                                 isLoggedIn={isLoggedIn}
                                 setIsLoggedIn={setIsLoggedIn}
                                 setToken={setToken}
