@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
-import CreatePost from '../components/CreatePost';
-import PostFeed from '../components/PostFeed';
-import { Redirect } from 'react-router-dom';
-import qs from 'qs';
+import React, { useState } from "react";
+import CreatePost from "../components/CreatePost";
+import PostFeed from "../components/PostFeed";
+import { Redirect } from "react-router-dom";
 
 const Home = ({ token, isLoggedIn }) => {
     // pass to create post / post feed to rerender
     const [updateFeed, setUpdateFeed] = useState(false);
-    const [feedType, setFeedType] = useState({ type: 'main' });
+    const [feedType, setFeedType] = useState({ type: "main" });
 
     return (
         <div>
@@ -16,11 +15,11 @@ const Home = ({ token, isLoggedIn }) => {
             ) : (
                 <div>
                     <div>
-                        <button onClick={() => setFeedType({ type: 'main' })}>
+                        <button onClick={() => setFeedType({ type: "main" })}>
                             World Feed
                         </button>
                         <button
-                            onClick={() => setFeedType({ type: 'friends' })}
+                            onClick={() => setFeedType({ type: "friends" })}
                         >
                             Friends Feed
                         </button>
