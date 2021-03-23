@@ -1,7 +1,6 @@
 .add-comment {
     display: flex;
     padding: 15px;
-    border: 0.5px solid black;
     margin-bottom: 5px;
 }
 
@@ -10,4 +9,6 @@
     width: 100%;
     resize: none;
     overflow-y: auto;
+    background: rgb(184, 184, 182);
+    color: black;
 }

@@ -1,0 +1,9 @@
+.friend-link a {
+    color: rgb(9, 9, 138);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.friend-link a:hover {
+    color: rgb(61, 61, 61);
+}

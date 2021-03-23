@@ -10,7 +10,6 @@ const Home = ({ token, isLoggedIn, setUpdateFeed, updateFeed, curUser }) => {
 
     return (
         <div>
-            {console.log('curUser,', curUser)}
             {!isLoggedIn ? (
                 <Redirect to="/login" />
             ) : (

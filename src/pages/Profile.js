@@ -71,8 +71,7 @@ const Profile = ({
 
     ///////////// FRIEND REQUESTS /////////////
     const handleSendFriendRequest = async () => {
-        const res = await sendFriendRequest(curUser._id, curProfile._id, token);
-        console.log(res);
+        await sendFriendRequest(curUser._id, curProfile._id, token);
         setIsFriendPending(true);
     };
 
@@ -100,15 +99,10 @@ const Profile = ({
     ) => {
         const res = await denyFriendRequest(curUserID, reqUserID, token);
         setCurUser(res.data);
-        // setFriendRequests([
-        //     ...friendRequests.slice(0, index),
-        //     ...friendRequests.slice(index + 1),
-        // ]);
     };
 
     const handleRemoveFriend = async (curUserID, reqUserID, token) => {
         const res = await removeFriend(curUserID, reqUserID, token);
-        console.log(res.data);
         setCurUser(res.data.firstRemoval);
         setIsFriend(false);
     };
@@ -116,8 +110,6 @@ const Profile = ({
 
     return (
         <div>
-            {console.log('curUser,', curUser)}
-            {console.log('curprofile, ', curProfile)}
             {!isLoggedIn ? <Redirect to="/login" /> : null}
             {_.isEmpty(curProfile) ? (
                 <div className="loading"></div>
@@ -228,7 +220,7 @@ const Profile = ({
                     ) : (
                         friends.map((friend) => {
                             return (
-                                <div key={friend._id}>
+                                <div className="friend-link" key={friend._id}>
                                     <Link to={`/profile/${friend._id}`}>
                                         {friend.firstname} {friend.lastname}
                                     </Link>

@@ -15,7 +15,6 @@ const PostFeed = ({ token, updateFeed, setUpdateFeed, feedInfo, curUser }) => {
     useEffect(() => {
         async function fetchPosts(token) {
             const res = await getAllPosts(token);
-            console.log('all posts', res.data);
             if (res) {
                 //reverse array to show newest first
                 let posts = res.data;
@@ -29,7 +28,6 @@ const PostFeed = ({ token, updateFeed, setUpdateFeed, feedInfo, curUser }) => {
         }
         async function fetchUsersPosts(userID, token) {
             const res = await getPostsByUser(userID, token);
-            console.log('userPosts', res.data);
             if (res) {
                 let posts = res.data;
                 posts = posts.reverse();
@@ -41,7 +39,6 @@ const PostFeed = ({ token, updateFeed, setUpdateFeed, feedInfo, curUser }) => {
 
         async function fetchFriendsPosts(friendsArr, token) {
             const res = await getPostsFromFriends(friendsArr, token);
-            console.log('friendsPosts,', res.data);
             if (res) {
                 let posts = res.data;
                 // maybe reverse posts here

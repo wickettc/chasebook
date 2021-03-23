@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import DisplayComment from './DisplayComment';
-import AddComment from './AddComment';
 import { addLike, removeLike } from '../api/apiCalls';
 import calcTimeSince from '../utils/calcTimeSince';
 import { Link } from 'react-router-dom';
@@ -20,7 +19,6 @@ const DisplayPost = ({
     const [alreadyLiked, setAlreadyLiked] = useState(null);
     const [alreadyLikedID, setAlreadyLikedID] = useState(null);
     const [showComment, setShowComment] = useState(false);
-    const [showAddComment, setShowAddComment] = useState(false);
 
     useEffect(() => {
         likes.forEach((like) => {
@@ -55,7 +53,6 @@ const DisplayPost = ({
     return (
         <div className="post-container">
             <div className="post-container-body">{body}</div>
-            <hr />
             <div className="post-container-rest">
                 <div className="post-container-like">
                     <span
@@ -86,7 +83,7 @@ const DisplayPost = ({
                                     width="24"
                                     height="24"
                                     viewBox="0 0 24 24"
-                                    fill="gray"
+                                    fill="pink"
                                 >
                                     <path d="M12 4.248c-3.148-5.402-12-3.825-12 2.944 0 4.661 5.571 9.427 12 15.808 6.43-6.381 12-11.147 12-15.808 0-6.792-8.875-8.306-12-2.944z" />
                                 </svg>
@@ -98,39 +95,30 @@ const DisplayPost = ({
                 <div className="post-container-comment">
                     <span
                         onClick={() => setShowComment(!showComment)}
-                        className="post-container-clickable"
+                        className="post-container-clickable display-post-comment"
                     >
                         Comments:
-                    </span>{' '}
+                    </span>
                     {comments.length}
                 </div>
 
                 <div className="post-container-author">
                     <Link to={`/profile/${author._id}`}>
-                        {author.firstname} {author.lastname}
+                        {author.firstname}
                     </Link>
                 </div>
                 <div className="post-container-date date">
                     {calcTimeSince(date)}
                 </div>
             </div>
-            <hr />
             {showComment ? (
                 <DisplayComment
-                    setShowAddComment={setShowAddComment}
-                    showAddComment={showAddComment}
+                    curUser={curUser}
+                    setUpdateFeed={setUpdateFeed}
+                    id={id}
+                    token={token}
                     comments={comments}
                 />
-            ) : null}
-            {showAddComment ? (
-                <div>
-                    <AddComment
-                        curUser={curUser}
-                        setUpdateFeed={setUpdateFeed}
-                        id={id}
-                        token={token}
-                    />
-                </div>
             ) : null}
         </div>
     );

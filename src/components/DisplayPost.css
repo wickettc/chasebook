@@ -1,26 +1,29 @@
 .post-container {
-    border: 1px solid black;
-    margin-bottom: 5px;
+    border: 2px solid rgb(9, 9, 138);
+    margin-bottom: 8px;
 }
 
-/* .post-container * {
-    margin: 5px;
-} */
-
 .post-container-body {
+    background: white;
     width: 100%;
-    margin-top: 5px;
+    font-size: 1.5rem;
     padding: 10px 10px;
     display: flex;
     justify-content: center;
     align-items: center;
+    box-sizing: border-box;
+    border-bottom: 1px solid gray;
+    margin-bottom: 10px;
 }
 
 .post-container-rest {
     display: flex;
-    margin: 0 20%;
+    padding: 0 20%;
+    padding-bottom: 10px;
     align-items: center;
     justify-content: space-evenly;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .post-container-like {
@@ -47,6 +50,16 @@
     justify-content: center;
 }
 
+.post-container-author a {
+    color: rgb(61, 61, 61);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.post-container-author a:hover {
+    color: rgb(9, 9, 138);
+}
+
 .post-container-date {
     width: 25%;
     display: flex;
@@ -56,6 +69,10 @@
 .post-container-clickable {
     cursor: pointer;
     transition: all 0.3s ease-in-out;
+}
+
+.display-post-comment {
+    margin-right: 5px;
 }
 
 .post-container-clickable:hover {

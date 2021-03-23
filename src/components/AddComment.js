@@ -23,7 +23,6 @@ const AddComment = ({ id, token, setUpdateFeed, curUser }) => {
 
     return (
         <div>
-            <hr />
             <form className="add-comment" onSubmit={handleSubmit}>
                 <textarea
                     onChange={handleChange}

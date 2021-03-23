@@ -1,13 +1,14 @@
 .create-post {
     display: flex;
     padding: 15px;
-    border: 0.5px solid black;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
 }
 
 .create-post textarea {
     padding: 10px;
+    color: black;
     width: 100%;
     resize: none;
     overflow-y: auto;
+    background: rgb(184, 184, 182);
 }

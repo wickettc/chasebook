@@ -1,6 +1,6 @@
 .navbar {
     width: 100%;
-    background: blue;
+    background: rgb(9, 9, 138);
     display: flex;
     justify-content: space-evenly;
 }
@@ -12,6 +12,6 @@
 }
 
 .navbar-clickable:hover {
-    color: black;
+    color: rgb(143, 143, 143);
     cursor: pointer;
 }

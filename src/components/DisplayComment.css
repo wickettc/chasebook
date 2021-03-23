@@ -1,5 +1,37 @@
-.comment-header {
+.all-comments-container {
+    margin: 0 10%;
+}
+
+.comment-container {
+    margin: 10px;
+    border: 1px solid gray;
+    border-radius: 5%;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    padding: 8px 8px;
+}
+
+.comment-body {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    width: 100%;
+    height: auto;
+}
+
+.comment-rest {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.comment-author a {
+    color: rgb(61, 61, 61);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.comment-author a:hover {
+    color: rgb(9, 9, 138);
 }
