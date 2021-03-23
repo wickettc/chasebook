@@ -3,6 +3,7 @@
     background: rgb(9, 9, 138);
     display: flex;
     justify-content: space-evenly;
+    padding: 10px;
 }
 
 .navbar * {
