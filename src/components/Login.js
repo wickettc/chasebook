@@ -18,7 +18,7 @@ const Login = ({ setToken, setCurUser }) => {
         e.preventDefault();
         const res = await login(email, password);
         if (res.status === 200) {
-            setToken(res.data);
+            setToken(res.data.token);
             setCurUser(res.data.user);
         }
     };

@@ -32,7 +32,7 @@ const DisplayPost = ({
     }, [likes, token, curUser]);
 
     const handleLike = async () => {
-        const res = await addLike(id, curUser._id, token.token);
+        const res = await addLike(id, curUser._id, token);
         if (res.status === 200) {
             setAlreadyLiked(true);
             setUpdateFeed(true);
@@ -42,7 +42,7 @@ const DisplayPost = ({
     };
 
     const handleRemoveLike = async () => {
-        const res = await removeLike(alreadyLikedID, token.token);
+        const res = await removeLike(alreadyLikedID, token);
         if (res.status === 204) {
             setAlreadyLiked(false);
             setAlreadyLikedID(null);

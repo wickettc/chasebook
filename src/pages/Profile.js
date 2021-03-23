@@ -46,7 +46,7 @@ const Profile = ({
             setFriends(res.data.friends);
             setFriendRequests(res.data.friendrequests);
         }
-        fetchUser(match.params.id, token.token);
+        fetchUser(match.params.id, token);
     }, [match, token, location]);
 
     useEffect(() => {
@@ -71,11 +71,7 @@ const Profile = ({
 
     ///////////// FRIEND REQUESTS /////////////
     const handleSendFriendRequest = async () => {
-        const res = await sendFriendRequest(
-            curUser._id,
-            curProfile._id,
-            token.token
-        );
+        const res = await sendFriendRequest(curUser._id, curProfile._id, token);
         console.log(res);
         setIsFriendPending(true);
     };
@@ -137,6 +133,7 @@ const Profile = ({
                     {isMyProfile ? (
                         <CreatePost
                             token={token}
+                            curUser={curUser}
                             setUpdateFeed={setUpdateFeed}
                         />
                     ) : null}
@@ -173,7 +170,7 @@ const Profile = ({
                                 handleRemoveFriend(
                                     curUser._id,
                                     curProfile._id,
-                                    token.token
+                                    token
                                 )
                             }
                         >
@@ -199,7 +196,7 @@ const Profile = ({
                                             handleAcceptFriendRequest(
                                                 curUser._id,
                                                 eachRequest._id,
-                                                token.token,
+                                                token,
                                                 index
                                             )
                                         }
@@ -211,7 +208,7 @@ const Profile = ({
                                             handleDenyFriendRequest(
                                                 curUser._id,
                                                 eachRequest._id,
-                                                token.token,
+                                                token,
                                                 index
                                             )
                                         }

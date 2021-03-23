@@ -33,6 +33,7 @@ function App() {
                     setIsLoggedIn={setIsLoggedIn}
                     token={token}
                     setToken={setToken}
+                    curUser={curUser}
                 />
                 <div className="app-container">
                     <Switch>
@@ -61,10 +62,8 @@ function App() {
                         />
                         <Route exact path="/login">
                             <Landing
-                                curUser={curUser}
                                 setCurUser={setCurUser}
                                 isLoggedIn={isLoggedIn}
-                                setIsLoggedIn={setIsLoggedIn}
                                 setToken={setToken}
                             />
                         </Route>

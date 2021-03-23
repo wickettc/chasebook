@@ -2,19 +2,18 @@ import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import './Navbar.css';
 
-const Navbar = ({ isLoggedIn, setIsLoggedIn, token, setToken }) => {
+const Navbar = ({ isLoggedIn, setIsLoggedIn, token, setToken, curUser }) => {
     const history = useHistory();
 
     return (
         <nav className="navbar">
-            {console.log(token)}
             <Link className="navbar-clickable" to="/">
                 Home
             </Link>
             {isLoggedIn ? (
                 <Link
                     className="navbar-clickable"
-                    to={`/profile/${token.user._id}`}
+                    to={`/profile/${curUser._id}`}
                 >
                     My Profile
                 </Link>

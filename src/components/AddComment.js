@@ -11,7 +11,7 @@ const AddComment = ({ id, token, setUpdateFeed, curUser }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const res = await createComment(id, body, curUser._id, token.token);
+        const res = await createComment(id, body, curUser._id, token);
         if (res.status === 201) {
             // success
             setBody('');

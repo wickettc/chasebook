@@ -15,7 +15,11 @@ const Home = ({ token, isLoggedIn, setUpdateFeed, updateFeed, curUser }) => {
                 <Redirect to="/login" />
             ) : (
                 <div>
-                    <CreatePost token={token} setUpdateFeed={setUpdateFeed} />
+                    <CreatePost
+                        token={token}
+                        curUser={curUser}
+                        setUpdateFeed={setUpdateFeed}
+                    />
                     <div className="home-buttons-container">
                         <button
                             className={whichBtnActive ? 'home-btn-active' : ''}

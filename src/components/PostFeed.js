@@ -52,11 +52,11 @@ const PostFeed = ({ token, updateFeed, setUpdateFeed, feedInfo, curUser }) => {
         }
 
         if (feedInfo.type === 'main') {
-            fetchPosts(token.token);
+            fetchPosts(token);
         } else if (feedInfo.type === 'users') {
-            fetchUsersPosts(feedInfo.userID, token.token);
+            fetchUsersPosts(feedInfo.userID, token);
         } else if (feedInfo.type === 'friends') {
-            fetchFriendsPosts(curUser.friends, token.token);
+            fetchFriendsPosts(curUser.friends, token);
         }
     }, [token, curUser, updateFeed, setUpdateFeed, feedInfo]);
 

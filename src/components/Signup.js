@@ -49,9 +49,8 @@ const Signup = ({ setToken, setCurUser }) => {
                 console.log(obj);
                 // after successful signup go ahead and login user
                 const loginRes = await login(obj.email, obj.password);
-                console.log(loginRes);
                 setCurUser(loginRes.data.user);
-                setToken(loginRes.data);
+                setToken(loginRes.data.token);
             }
         }
     };
