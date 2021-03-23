@@ -115,11 +115,126 @@ const Profile = ({
                 <div className="loading"></div>
             ) : (
                 <div>
-                    <h1>
-                        {isMyProfile ? 'YOUR PROFILE' : null}
-                        <br />
-                        {curProfile.firstname} {curProfile.lastname}
-                    </h1>
+                    <div className="profile-header">
+                        <div>
+                            <h1>
+                                {isMyProfile ? 'YOUR PROFILE' : null}
+                                <br />
+                                {curProfile.firstname} {curProfile.lastname}
+                            </h1>
+
+                            {/* ADD FRIEND */}
+                            {isMyProfile ? null : isFriend ? (
+                                <h3>You are friends!</h3>
+                            ) : isFriendPending ? (
+                                <h3>Friend Request Pending!</h3>
+                            ) : (
+                                <button onClick={handleSendFriendRequest}>
+                                    Add Friend
+                                </button>
+                            )}
+                            {/* ADD FRIEND */}
+
+                            {/* REMOVE FRIEND */}
+                            {!isMyProfile && isFriend ? (
+                                <button
+                                    onClick={() =>
+                                        handleRemoveFriend(
+                                            curUser._id,
+                                            curProfile._id,
+                                            token
+                                        )
+                                    }
+                                >
+                                    Remove Friend
+                                </button>
+                            ) : null}
+                            {/* REMOVE FRIEND */}
+                        </div>
+                        {/* FRIEND REQUESTS */}
+                        <div className="profile-header-container">
+                            {isMyProfile ? <h3>Friend Requests</h3> : null}
+                            {isMyProfile && _.isEmpty(friendRequests) ? (
+                                <h5>No requests currently</h5>
+                            ) : isMyProfile && !_.isEmpty(friendRequests) ? (
+                                <div className="profile-header-scrollable">
+                                    {friendRequests.map(
+                                        (eachRequest, index) => {
+                                            return (
+                                                <div
+                                                    className="friend-request"
+                                                    key={eachRequest._id}
+                                                >
+                                                    <span className="friend-link">
+                                                        <Link
+                                                            to={`/profile/${eachRequest._id}`}
+                                                        >
+                                                            {
+                                                                eachRequest.firstname
+                                                            }
+                                                        </Link>{' '}
+                                                        wants to be friends!
+                                                    </span>
+                                                    <button
+                                                        onClick={() =>
+                                                            handleAcceptFriendRequest(
+                                                                curUser._id,
+                                                                eachRequest._id,
+                                                                token,
+                                                                index
+                                                            )
+                                                        }
+                                                    >
+                                                        Approve
+                                                    </button>
+                                                    <button
+                                                        onClick={() =>
+                                                            handleDenyFriendRequest(
+                                                                curUser._id,
+                                                                eachRequest._id,
+                                                                token,
+                                                                index
+                                                            )
+                                                        }
+                                                    >
+                                                        Decline
+                                                    </button>
+                                                </div>
+                                            );
+                                        }
+                                    )}
+                                </div>
+                            ) : null}
+                        </div>
+                        {/* FRIEND REQUESTS */}
+
+                        {/* SHOW FRIENDS */}
+                        <div className="profile-header-container">
+                            <h3>Friends</h3>
+                            {_.isEmpty(friends) ? (
+                                <div>{curProfile.firstname} has no friends</div>
+                            ) : (
+                                <div className="profile-header-scrollable">
+                                    {friends.map((friend) => {
+                                        return (
+                                            <div
+                                                className="friend-link"
+                                                key={friend._id}
+                                            >
+                                                <Link
+                                                    to={`/profile/${friend._id}`}
+                                                >
+                                                    {friend.firstname}{' '}
+                                                    {friend.lastname}
+                                                </Link>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </div>
+                        {/* SHOW FRIENDS */}
+                    </div>
 
                     {/* CREATE POST ON YOUR PROFILE */}
                     {isMyProfile ? (
@@ -130,7 +245,6 @@ const Profile = ({
                         />
                     ) : null}
                     {/* CREATE POST */}
-
                     {/* POST FEED */}
                     <PostFeed
                         curUser={curUser}
@@ -142,93 +256,6 @@ const Profile = ({
                         }}
                     />
                     {/* POST FEED */}
-
-                    {/* ADD FRIEND */}
-                    {isMyProfile ? null : isFriend ? (
-                        <h3>You are friends!</h3>
-                    ) : isFriendPending ? (
-                        <h3>Friend Request Pending!</h3>
-                    ) : (
-                        <button onClick={handleSendFriendRequest}>
-                            Add Friend
-                        </button>
-                    )}
-                    {/* ADD FRIEND */}
-
-                    {/* REMOVE FRIEND */}
-                    {!isMyProfile && isFriend ? (
-                        <button
-                            onClick={() =>
-                                handleRemoveFriend(
-                                    curUser._id,
-                                    curProfile._id,
-                                    token
-                                )
-                            }
-                        >
-                            Remove Friend
-                        </button>
-                    ) : null}
-                    {/* REMOVE FRIEND */}
-
-                    {/* FRIEND REQUESTS */}
-                    {isMyProfile ? <h3>Friend Requests</h3> : null}
-                    {isMyProfile && _.isEmpty(friendRequests) ? (
-                        <h5>No requests currently</h5>
-                    ) : isMyProfile && !_.isEmpty(friendRequests) ? (
-                        friendRequests.map((eachRequest, index) => {
-                            return (
-                                <div key={eachRequest._id}>
-                                    <span>
-                                        {eachRequest.firstname} wants to be
-                                        friends!
-                                    </span>
-                                    <button
-                                        onClick={() =>
-                                            handleAcceptFriendRequest(
-                                                curUser._id,
-                                                eachRequest._id,
-                                                token,
-                                                index
-                                            )
-                                        }
-                                    >
-                                        Approve
-                                    </button>
-                                    <button
-                                        onClick={() =>
-                                            handleDenyFriendRequest(
-                                                curUser._id,
-                                                eachRequest._id,
-                                                token,
-                                                index
-                                            )
-                                        }
-                                    >
-                                        Decline
-                                    </button>
-                                </div>
-                            );
-                        })
-                    ) : null}
-                    {/* FRIEND REQUESTS */}
-
-                    {/* SHOW FRIENDS */}
-                    <h3>Friends</h3>
-                    {_.isEmpty(friends) ? (
-                        <div>{curProfile.firstname} has no friends</div>
-                    ) : (
-                        friends.map((friend) => {
-                            return (
-                                <div className="friend-link" key={friend._id}>
-                                    <Link to={`/profile/${friend._id}`}>
-                                        {friend.firstname} {friend.lastname}
-                                    </Link>
-                                </div>
-                            );
-                        })
-                    )}
-                    {/* SHOW FRIENDS */}
                 </div>
             )}
         </div>

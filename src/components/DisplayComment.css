@@ -5,9 +5,8 @@
 .comment-container {
     margin: 10px;
     border: 1px solid gray;
-    border-radius: 5%;
+    border-radius: 10%;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 8px 8px;
@@ -16,14 +15,17 @@
 .comment-body {
     overflow-wrap: break-word;
     word-wrap: break-word;
-    width: 100%;
-    height: auto;
+    text-align: center;
+    width: 75%;
+    box-sizing: border-box;
 }
 
 .comment-rest {
     display: flex;
-    justify-content: space-around;
-    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    width: 25%;
+    box-sizing: border-box;
 }
 
 .comment-author a {
@@ -34,4 +36,9 @@
 
 .comment-author a:hover {
     color: rgb(9, 9, 138);
+}
+
+.comment-nocommentsyet {
+    padding-top: 5px;
+    text-align: center;
 }

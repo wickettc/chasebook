@@ -1,3 +1,26 @@
+.profile-header {
+    display: flex;
+    /* align-items: center; */
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.profile-header-container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+.profile-header-scrollable {
+    text-align: left;
+    height: 100px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.friend-request button {
+    margin: 5px;
+}
+
 .friend-link a {
     color: rgb(9, 9, 138);
     text-decoration: none;
