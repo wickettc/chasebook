@@ -2,7 +2,7 @@ import axios from 'axios';
 import qs from 'qs';
 
 // const baseURL = 'http://localhost:3000';
-const baseURL = 'https://evening-falls-95208.herokuapp.com/';
+const baseURL = 'https://evening-falls-95208.herokuapp.com';
 
 const login = async (email, password) => {
     try {
