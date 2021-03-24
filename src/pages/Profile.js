@@ -175,30 +175,38 @@ const Profile = ({
                                                         </Link>{' '}
                                                         wants to be friends!
                                                     </span>
-                                                    <button
-                                                        onClick={() =>
-                                                            handleAcceptFriendRequest(
-                                                                curUser._id,
-                                                                eachRequest._id,
-                                                                token,
-                                                                index
-                                                            )
-                                                        }
-                                                    >
-                                                        Approve
-                                                    </button>
-                                                    <button
-                                                        onClick={() =>
-                                                            handleDenyFriendRequest(
-                                                                curUser._id,
-                                                                eachRequest._id,
-                                                                token,
-                                                                index
-                                                            )
-                                                        }
-                                                    >
-                                                        Decline
-                                                    </button>
+                                                    <div className="friendrequest-btns">
+                                                        <button
+                                                            onClick={() =>
+                                                                handleAcceptFriendRequest(
+                                                                    curUser._id,
+                                                                    eachRequest._id,
+                                                                    token,
+                                                                    index
+                                                                )
+                                                            }
+                                                        >
+                                                            Approve
+                                                        </button>
+                                                        <button
+                                                            onClick={() =>
+                                                                handleDenyFriendRequest(
+                                                                    curUser._id,
+                                                                    eachRequest._id,
+                                                                    token,
+                                                                    index
+                                                                )
+                                                            }
+                                                        >
+                                                            Decline
+                                                        </button>
+                                                    </div>
+                                                    {/* disables the <hr /> tag for the last request */}
+                                                    {friendRequests.length -
+                                                        1 >=
+                                                    index + 1 ? (
+                                                        <hr />
+                                                    ) : null}
                                                 </div>
                                             );
                                         }

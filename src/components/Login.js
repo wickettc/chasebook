@@ -24,7 +24,7 @@ const Login = ({ setToken, setCurUser }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form className="landing-form" onSubmit={handleSubmit}>
             <input
                 type="email"
                 placeholder="Email"

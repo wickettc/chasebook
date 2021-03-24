@@ -8,7 +8,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, token, setToken, curUser }) => {
     return (
         <nav className="navbar">
             <Link className="navbar-clickable" to="/">
-                Home
+                {!isLoggedIn ? 'Welcome To ChaseBook' : 'Home'}
             </Link>
             {isLoggedIn ? (
                 <Link

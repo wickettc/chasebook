@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import Signup from '../components/Signup';
 import Login from '../components/Login';
+import './Landing.css';
 
 const Landing = ({ isLoggedIn, setToken, setCurUser }) => {
     const [showSignup, setShowSignup] = useState(false);
@@ -16,6 +17,7 @@ const Landing = ({ isLoggedIn, setToken, setCurUser }) => {
             </div>
             <div>
                 <button
+                    className="landing-signup-btn"
                     onClick={() => {
                         setShowLogin(false);
                         setShowSignup(true);
@@ -31,12 +33,14 @@ const Landing = ({ isLoggedIn, setToken, setCurUser }) => {
                 >
                     Log In
                 </button>
-                {showSignup ? (
-                    <Signup setToken={setToken} setCurUser={setCurUser} />
-                ) : null}
-                {showLogin ? (
-                    <Login setToken={setToken} setCurUser={setCurUser} />
-                ) : null}
+                <div className="form-div">
+                    {showSignup ? (
+                        <Signup setToken={setToken} setCurUser={setCurUser} />
+                    ) : null}
+                    {showLogin ? (
+                        <Login setToken={setToken} setCurUser={setCurUser} />
+                    ) : null}
+                </div>
             </div>
         </div>
     );

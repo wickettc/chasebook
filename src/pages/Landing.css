@@ -1,0 +1,38 @@
+.landing-signup-btn {
+    margin-right: 5px;
+}
+
+.form-div {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.landing-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 50%;
+    border: 2px solid black;
+    border-radius: 5%;
+    padding: 5%;
+}
+
+.landing-form input {
+    padding: 10px 15px;
+    margin-bottom: 5px;
+    width: 80%;
+}
+
+@media only screen and (min-width: 700px) {
+    .landing-form {
+        width: 30%;
+    }
+}
+
+@media only screen and (min-width: 1000px) {
+    .landing-form {
+        width: 25%;
+    }
+}

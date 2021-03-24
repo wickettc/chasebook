@@ -1,6 +1,5 @@
 .profile-header {
     display: flex;
-    /* align-items: center; */
     justify-content: space-between;
     margin-bottom: 25px;
 }
@@ -17,8 +16,17 @@
     padding-right: 10px;
 }
 
+.friend-request {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
 .friend-request button {
     margin: 5px;
+}
+
+.friend-link {
+    margin-bottom: 5px;
 }
 
 .friend-link a {
@@ -29,4 +37,12 @@
 
 .friend-link a:hover {
     color: rgb(61, 61, 61);
+}
+
+@media only screen and (max-width: 600px) {
+    .profile-header {
+        flex-direction: column;
+        align-items: center;
+        border: 2px solid rgb(9, 9, 138);
+    }
 }

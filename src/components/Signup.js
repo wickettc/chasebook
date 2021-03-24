@@ -56,7 +56,7 @@ const Signup = ({ setToken, setCurUser }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="landing-form">
             <input
                 type="email"
                 placeholder="Email"

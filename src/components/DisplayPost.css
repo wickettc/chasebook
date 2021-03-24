@@ -8,12 +8,12 @@
     width: 100%;
     font-size: 1.5rem;
     padding: 10px 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    text-align: center;
     box-sizing: border-box;
     border-bottom: 1px solid gray;
     margin-bottom: 10px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 
 .post-container-rest {
@@ -77,4 +77,10 @@
 
 .post-container-clickable:hover {
     color: blue;
+}
+
+@media only screen and (max-width: 768px) {
+    .post-container-rest {
+        padding: 0;
+    }
 }

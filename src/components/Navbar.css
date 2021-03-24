@@ -3,7 +3,8 @@
     background: rgb(9, 9, 138);
     display: flex;
     justify-content: space-evenly;
-    padding: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .navbar * {
@@ -15,4 +16,10 @@
 .navbar-clickable:hover {
     color: rgb(143, 143, 143);
     cursor: pointer;
+}
+
+@media only screen and (max-width: 500px) {
+    .navbar * {
+        font-size: 1.5rem;
+    }
 }
