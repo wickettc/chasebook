@@ -20,6 +20,8 @@ const Login = ({ setToken, setCurUser }) => {
         if (res.status === 200) {
             setToken(res.data.token);
             setCurUser(res.data.user);
+            localStorage.setItem('curUser', JSON.stringify(res.data.user));
+            localStorage.setItem('token', res.data.token);
         }
     };
 

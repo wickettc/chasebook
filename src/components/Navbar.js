@@ -24,6 +24,8 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, token, setToken, curUser }) => {
                     onClick={() => {
                         setIsLoggedIn(false);
                         setToken(null);
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('curUser');
                         history.push('/login');
                     }}
                 >

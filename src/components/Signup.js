@@ -51,6 +51,11 @@ const Signup = ({ setToken, setCurUser }) => {
                 const loginRes = await login(obj.email, obj.password);
                 setCurUser(loginRes.data.user);
                 setToken(loginRes.data.token);
+                localStorage.setItem(
+                    'curUser',
+                    JSON.stringify(loginRes.data.user)
+                );
+                localStorage.setItem('token', loginRes.data.token);
             }
         }
     };

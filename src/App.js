@@ -21,11 +21,21 @@ function App() {
     useEffect(() => {
         if (token) {
             setIsLoggedIn(true);
+        } else {
+            if (localStorage.getItem('token') !== null) {
+                setToken(localStorage.getItem('token'));
+                let curUserObj = JSON.parse(localStorage.getItem('curUser'));
+                setCurUser(curUserObj);
+                setIsLoggedIn(true);
+            }
         }
     }, [token]);
 
     return (
         <div className="App">
+            {console.log(localStorage.getItem('token'))}
+            {console.log('token- app', token)}
+            {console.log(localStorage.getItem('curUser'))}
             <Router>
                 {!isLoggedIn ? <Redirect to="/login" /> : null}
                 <Navbar
@@ -57,6 +67,8 @@ function App() {
                                     match={match}
                                     isLoggedIn={isLoggedIn}
                                     token={token}
+                                    setIsLoggedIn={setIsLoggedIn}
+                                    setToken={setToken}
                                 />
                             )}
                         />

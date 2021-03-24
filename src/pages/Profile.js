@@ -17,6 +17,8 @@ const Profile = ({
     match,
     token,
     isLoggedIn,
+    setIsLoggedIn,
+    setToken,
     setUpdateFeed,
     curUser,
     setCurUser,
@@ -30,6 +32,16 @@ const Profile = ({
     let location = useLocation();
 
     ///////////// PAGE LOAD /////////////
+
+    useEffect(() => {
+        if (!token) {
+            setToken(localStorage.getItem('token'));
+            let curUserObj = JSON.parse(localStorage.getItem('curUser'));
+            setCurUser(curUserObj);
+            setIsLoggedIn(true);
+        }
+    }, [token, setToken, setCurUser, setIsLoggedIn]);
+
     useEffect(() => {
         const curUserId = location.pathname.split('/')[2];
         if (curUserId === curUser._id) {
@@ -42,16 +54,26 @@ const Profile = ({
     useEffect(() => {
         async function fetchUser(id, token) {
             const res = await getUserProfile(id, token);
+            console.log('fetchUser', res.data);
             setCurProfile(res.data);
             setFriends(res.data.friends);
             setFriendRequests(res.data.friendrequests);
         }
-        fetchUser(match.params.id, token);
-    }, [match, token, location]);
+
+        if (!token) {
+            // let curUserObj = JSON.parse(localStorage.getItem('curUser'));
+            fetchUser(match.params.id, localStorage.getItem('token'));
+            setIsLoggedIn(true);
+        } else {
+            fetchUser(match.params.id, token);
+        }
+    }, [match, token, location, setIsLoggedIn]);
 
     useEffect(() => {
-        if (curUser.friends.includes(curProfile._id)) {
-            setIsFriend(true);
+        if (!_.isEmpty(curProfile)) {
+            if (curUser.friends.includes(curProfile._id)) {
+                setIsFriend(true);
+            }
         }
         if (curProfile.friendrequests) {
             curProfile.friendrequests.filter((req) => {
