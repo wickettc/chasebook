@@ -41,6 +41,7 @@ const PostFeed = ({ token, updateFeed, setUpdateFeed, feedInfo, curUser }) => {
             const res = await getPostsFromFriends(friendsArr, token);
             if (res) {
                 let posts = res.data;
+                posts = posts.reverse();
                 setPosts(posts);
                 setLoading(false);
                 setUpdateFeed(false);
