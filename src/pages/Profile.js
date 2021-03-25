@@ -23,6 +23,7 @@ const Profile = ({
     curUser,
     setCurUser,
 }) => {
+    const [loading, setLoading] = useState(true);
     const [isMyProfile, setIsMyProfile] = useState(false);
     const [curProfile, setCurProfile] = useState({});
     const [isFriend, setIsFriend] = useState(false);
@@ -71,9 +72,11 @@ const Profile = ({
         }
 
         if (!token) {
+            setLoading(true);
             fetchUser(match.params.id, localStorage.getItem('token'));
             setIsLoggedIn(true);
         } else {
+            setLoading(true);
             fetchUser(match.params.id, token);
         }
         return () => (mounted = false);
@@ -98,6 +101,7 @@ const Profile = ({
                 return req === curProfile._id ? setIsFriendPending(true) : null;
             });
         }
+        setLoading(false);
     }, [curProfile, curUser]);
     ///////////// PAGE LOAD /////////////
 
@@ -144,14 +148,14 @@ const Profile = ({
         <div>
             {!isLoggedIn ? <Redirect to="/login" /> : null}
             {_.isEmpty(curProfile) ? (
-                <div className="loading"></div>
+                <div className="loader"></div>
+            ) : loading ? (
+                <div className="loader"></div>
             ) : (
                 <div>
                     <div className="profile-header">
                         <div>
                             <h1>
-                                {isMyProfile ? 'YOUR PROFILE' : null}
-                                <br />
                                 {curProfile.firstname} {curProfile.lastname}
                             </h1>
 

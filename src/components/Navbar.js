@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import './Navbar.css';
 
-const Navbar = ({ isLoggedIn, setIsLoggedIn, token, setToken, curUser }) => {
+const Navbar = ({ isLoggedIn, setIsLoggedIn, setToken, curUser }) => {
     const history = useHistory();
 
     return (
