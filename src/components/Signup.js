@@ -7,6 +7,7 @@ const Signup = ({ setToken, setCurUser }) => {
     const [lastname, setLastname] = useState('');
     const [password, setPassword] = useState('');
     const [confirmpassword, setConfirmpassword] = useState('');
+    const [errors, setErrors] = useState({});
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -40,10 +41,29 @@ const Signup = ({ setToken, setCurUser }) => {
             password,
             confirmpassword
         );
-        console.log(res);
         if (res.status === 200) {
             if (res.data.errors) {
-                console.log(res.data.errors);
+                const err = res.data.errors[0];
+                switch (err.param) {
+                    case 'email':
+                        setErrors({ email: err.msg });
+                        break;
+                    case 'firstname':
+                        setErrors({ first: err.msg });
+                        break;
+                    case 'lastname':
+                        setErrors({ last: err.msg });
+                        break;
+                    case 'password':
+                        setErrors({ pw: err.msg });
+                        break;
+                    case 'confirmpassword':
+                        setErrors({ cpw: err.msg });
+                        break;
+                    default:
+                        console.log('something went wrong');
+                        break;
+                }
             } else {
                 const obj = JSON.parse(res.config.data);
                 console.log(obj);
@@ -70,6 +90,9 @@ const Signup = ({ setToken, setCurUser }) => {
                 required
                 onChange={handleChange}
             />
+            {errors.email ? (
+                <div className="err-msg">{errors.email}</div>
+            ) : null}
             <input
                 type="text"
                 placeholder="First Name"
@@ -78,6 +101,9 @@ const Signup = ({ setToken, setCurUser }) => {
                 required
                 onChange={handleChange}
             />
+            {errors.first ? (
+                <div className="err-msg">{errors.first}</div>
+            ) : null}
             <input
                 type="text"
                 placeholder="Last Name"
@@ -86,6 +112,7 @@ const Signup = ({ setToken, setCurUser }) => {
                 required
                 onChange={handleChange}
             />
+            {errors.last ? <div className="err-msg">{errors.last}</div> : null}
             <input
                 type="password"
                 placeholder="Password"
@@ -94,6 +121,7 @@ const Signup = ({ setToken, setCurUser }) => {
                 required
                 onChange={handleChange}
             />
+            {errors.pw ? <div className="err-msg">{errors.pw}</div> : null}
             <input
                 type="password"
                 placeholder="Confirm Password"
@@ -102,6 +130,7 @@ const Signup = ({ setToken, setCurUser }) => {
                 required
                 onChange={handleChange}
             />
+            {errors.cpw ? <div className="err-msg">{errors.cpw}</div> : null}
             <button>Sign Up</button>
         </form>
     );
