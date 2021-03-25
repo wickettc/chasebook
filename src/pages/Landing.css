@@ -6,6 +6,11 @@
     margin-right: 5px;
 }
 
+.landing-btn-active {
+    background: black;
+    color: white;
+}
+
 .form-div {
     display: flex;
     justify-content: center;

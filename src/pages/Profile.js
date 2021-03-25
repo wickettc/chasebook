@@ -32,6 +32,9 @@ const Profile = ({
     let location = useLocation();
 
     ///////////// PAGE LOAD /////////////
+    useEffect(() => {
+        setCurProfile({});
+    }, []);
 
     useEffect(() => {
         if (!token) {
@@ -44,12 +47,17 @@ const Profile = ({
 
     useEffect(() => {
         const curUserId = location.pathname.split('/')[2];
-        if (curUserId === curUser._id) {
-            setIsMyProfile(true);
-        } else {
-            setIsMyProfile(false);
+        let mounted = true;
+        if (mounted) {
+            if (curUserId === curUser._id) {
+                setIsMyProfile(true);
+            } else {
+                setIsMyProfile(false);
+            }
+            setUpdateFeed(true);
         }
-    }, [curUser, location]);
+        return () => (mounted = false);
+    }, [curUser, location, setUpdateFeed]);
 
     useEffect(() => {
         let mounted = true;
@@ -63,7 +71,6 @@ const Profile = ({
         }
 
         if (!token) {
-            // let curUserObj = JSON.parse(localStorage.getItem('curUser'));
             fetchUser(match.params.id, localStorage.getItem('token'));
             setIsLoggedIn(true);
         } else {
