@@ -33,9 +33,6 @@ function App() {
 
     return (
         <div className="App">
-            {console.log(localStorage.getItem('token'))}
-            {console.log('token- app', token)}
-            {console.log(localStorage.getItem('curUser'))}
             <Router>
                 {!isLoggedIn ? <Redirect to="/login" /> : null}
                 <Navbar

@@ -52,12 +52,14 @@ const Profile = ({
     }, [curUser, location]);
 
     useEffect(() => {
+        let mounted = true;
         async function fetchUser(id, token) {
             const res = await getUserProfile(id, token);
-            console.log('fetchUser', res.data);
-            setCurProfile(res.data);
-            setFriends(res.data.friends);
-            setFriendRequests(res.data.friendrequests);
+            if (mounted) {
+                setCurProfile(res.data);
+                setFriends(res.data.friends);
+                setFriendRequests(res.data.friendrequests);
+            }
         }
 
         if (!token) {
@@ -67,6 +69,7 @@ const Profile = ({
         } else {
             fetchUser(match.params.id, token);
         }
+        return () => (mounted = false);
     }, [match, token, location, setIsLoggedIn]);
 
     useEffect(() => {
