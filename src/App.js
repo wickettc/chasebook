@@ -21,6 +21,13 @@ function App() {
     useEffect(() => {
         if (token) {
             setIsLoggedIn(true);
+        } else {
+            if (localStorage.getItem('token') !== null) {
+                setToken(localStorage.getItem('token'));
+                let curUserObj = JSON.parse(localStorage.getItem('curUser'));
+                setCurUser(curUserObj);
+                setIsLoggedIn(true);
+            }
         }
     }, [token]);
 
@@ -57,6 +64,8 @@ function App() {
                                     match={match}
                                     isLoggedIn={isLoggedIn}
                                     token={token}
+                                    setIsLoggedIn={setIsLoggedIn}
+                                    setToken={setToken}
                                 />
                             )}
                         />

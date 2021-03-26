@@ -41,13 +41,14 @@ const PostFeed = ({ token, updateFeed, setUpdateFeed, feedInfo, curUser }) => {
             const res = await getPostsFromFriends(friendsArr, token);
             if (res) {
                 let posts = res.data;
-                // maybe reverse posts here
+                posts = posts.reverse();
                 setPosts(posts);
                 setLoading(false);
                 setUpdateFeed(false);
             }
         }
-
+        // let mounted = true;
+        // if (mounted) {
         if (feedInfo.type === 'main') {
             fetchPosts(token);
         } else if (feedInfo.type === 'users') {
@@ -55,6 +56,9 @@ const PostFeed = ({ token, updateFeed, setUpdateFeed, feedInfo, curUser }) => {
         } else if (feedInfo.type === 'friends') {
             fetchFriendsPosts(curUser.friends, token);
         }
+        // }
+
+        // return () => (mounted = false);
     }, [token, curUser, updateFeed, setUpdateFeed, feedInfo]);
 
     return (

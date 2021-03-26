@@ -5,7 +5,7 @@ import Login from '../components/Login';
 import './Landing.css';
 
 const Landing = ({ isLoggedIn, setToken, setCurUser }) => {
-    const [showSignup, setShowSignup] = useState(false);
+    const [showSignup, setShowSignup] = useState(true);
     const [showLogin, setShowLogin] = useState(false);
 
     return (
@@ -17,7 +17,9 @@ const Landing = ({ isLoggedIn, setToken, setCurUser }) => {
             </div>
             <div>
                 <button
-                    className="landing-signup-btn"
+                    className={`landing-signup-btn ${
+                        showSignup ? 'landing-btn-active' : ''
+                    }`}
                     onClick={() => {
                         setShowLogin(false);
                         setShowSignup(true);
@@ -26,6 +28,7 @@ const Landing = ({ isLoggedIn, setToken, setCurUser }) => {
                     Sign Up
                 </button>
                 <button
+                    className={showLogin ? 'landing-btn-active' : ''}
                     onClick={() => {
                         setShowSignup(false);
                         setShowLogin(true);

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import './Navbar.css';
 
-const Navbar = ({ isLoggedIn, setIsLoggedIn, token, setToken, curUser }) => {
+const Navbar = ({ isLoggedIn, setIsLoggedIn, setToken, curUser }) => {
     const history = useHistory();
 
     return (
@@ -24,6 +24,8 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, token, setToken, curUser }) => {
                     onClick={() => {
                         setIsLoggedIn(false);
                         setToken(null);
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('curUser');
                         history.push('/login');
                     }}
                 >
