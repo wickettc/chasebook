@@ -47,17 +47,18 @@ const PostFeed = ({ token, updateFeed, setUpdateFeed, feedInfo, curUser }) => {
                 setUpdateFeed(false);
             }
         }
-        let mounted = true;
-        if (mounted) {
-            if (feedInfo.type === 'main') {
-                fetchPosts(token);
-            } else if (feedInfo.type === 'users') {
-                fetchUsersPosts(feedInfo.userID, token);
-            } else if (feedInfo.type === 'friends') {
-                fetchFriendsPosts(curUser.friends, token);
-            }
+        // let mounted = true;
+        // if (mounted) {
+        if (feedInfo.type === 'main') {
+            fetchPosts(token);
+        } else if (feedInfo.type === 'users') {
+            fetchUsersPosts(feedInfo.userID, token);
+        } else if (feedInfo.type === 'friends') {
+            fetchFriendsPosts(curUser.friends, token);
         }
-        return () => (mounted = false);
+        // }
+
+        // return () => (mounted = false);
     }, [token, curUser, updateFeed, setUpdateFeed, feedInfo]);
 
     return (

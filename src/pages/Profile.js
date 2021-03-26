@@ -23,7 +23,6 @@ const Profile = ({
     curUser,
     setCurUser,
 }) => {
-    const [loading, setLoading] = useState(true);
     const [isMyProfile, setIsMyProfile] = useState(false);
     const [curProfile, setCurProfile] = useState({});
     const [isFriend, setIsFriend] = useState(false);
@@ -33,9 +32,6 @@ const Profile = ({
     let location = useLocation();
 
     ///////////// PAGE LOAD /////////////
-    useEffect(() => {
-        setCurProfile({});
-    }, []);
 
     useEffect(() => {
         if (!token) {
@@ -72,11 +68,9 @@ const Profile = ({
         }
 
         if (!token) {
-            setLoading(true);
             fetchUser(match.params.id, localStorage.getItem('token'));
             setIsLoggedIn(true);
         } else {
-            setLoading(true);
             fetchUser(match.params.id, token);
         }
         return () => (mounted = false);
@@ -101,7 +95,6 @@ const Profile = ({
                 return req === curProfile._id ? setIsFriendPending(true) : null;
             });
         }
-        setLoading(false);
     }, [curProfile, curUser]);
     ///////////// PAGE LOAD /////////////
 
@@ -127,12 +120,7 @@ const Profile = ({
         ]);
     };
 
-    const handleDenyFriendRequest = async (
-        curUserID,
-        reqUserID,
-        token,
-        index
-    ) => {
+    const handleDenyFriendRequest = async (curUserID, reqUserID, token) => {
         const res = await denyFriendRequest(curUserID, reqUserID, token);
         setCurUser(res.data);
     };
@@ -148,8 +136,6 @@ const Profile = ({
         <div>
             {!isLoggedIn ? <Redirect to="/login" /> : null}
             {_.isEmpty(curProfile) ? (
-                <div className="loader"></div>
-            ) : loading ? (
                 <div className="loader"></div>
             ) : (
                 <div>
