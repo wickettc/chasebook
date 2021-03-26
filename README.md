@@ -1,6 +1,6 @@
 Welcome to "ChaseBook"! My Facebook clone created with ReactJS for the frontend running off of an API created with Express and database by MongoDB.
 
-## #Live At: https://chasebook-frontend.vercel.app/login
+## #Live At: https://chasebook-wickettc.vercel.app/
 
 # Check out the API at https://github.com/wickettc/chasebook-backend
 
