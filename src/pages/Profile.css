@@ -3,6 +3,7 @@
     justify-content: space-between;
     margin-bottom: 25px;
     text-align: center;
+    border-bottom: 1px solid gray;
 }
 
 .profile-header-container {

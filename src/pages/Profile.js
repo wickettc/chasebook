@@ -252,6 +252,9 @@ const Profile = ({
                                                 key={friend._id}
                                             >
                                                 <Link
+                                                    onClick={() =>
+                                                        setCurProfile({})
+                                                    }
                                                     to={`/profile/${friend._id}`}
                                                 >
                                                     {friend.firstname}{' '}
