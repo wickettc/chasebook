@@ -5,6 +5,7 @@ const Login = ({ setToken, setCurUser }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [logginError, setLogginError] = useState({});
+    const [formLoading, setFormLoading] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -17,6 +18,7 @@ const Login = ({ setToken, setCurUser }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setFormLoading(true);
         const res = await login(email, password);
         if (res.status === 200) {
             setLogginError({});
@@ -25,6 +27,7 @@ const Login = ({ setToken, setCurUser }) => {
             localStorage.setItem('curUser', JSON.stringify(res.data.user));
             localStorage.setItem('token', res.data.token);
         } else {
+            setFormLoading(false);
             if (res.data.emailError) {
                 setLogginError({ email: res.data.emailError });
             } else if (res.data.pwError) {
@@ -57,7 +60,11 @@ const Login = ({ setToken, setCurUser }) => {
             {logginError.pw ? (
                 <div className="err-msg">{logginError.pw}</div>
             ) : null}
-            <button>Log In</button>
+            {formLoading ? (
+                <div className="form-loader"></div>
+            ) : (
+                <button>Log In</button>
+            )}
         </form>
     );
 };

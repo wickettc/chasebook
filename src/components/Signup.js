@@ -8,6 +8,7 @@ const Signup = ({ setToken, setCurUser }) => {
     const [password, setPassword] = useState('');
     const [confirmpassword, setConfirmpassword] = useState('');
     const [errors, setErrors] = useState({});
+    const [formLoading, setFormLoading] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -34,6 +35,7 @@ const Signup = ({ setToken, setCurUser }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setFormLoading(true);
         const res = await signup(
             email,
             firstname,
@@ -43,6 +45,7 @@ const Signup = ({ setToken, setCurUser }) => {
         );
         if (res.status === 200) {
             if (res.data.errors) {
+                setFormLoading(false);
                 const err = res.data.errors[0];
                 switch (err.param) {
                     case 'email':
@@ -66,7 +69,6 @@ const Signup = ({ setToken, setCurUser }) => {
                 }
             } else {
                 const obj = JSON.parse(res.config.data);
-                console.log(obj);
                 // after successful signup go ahead and login user
                 const loginRes = await login(obj.email, obj.password);
                 setCurUser(loginRes.data.user);
@@ -131,7 +133,11 @@ const Signup = ({ setToken, setCurUser }) => {
                 onChange={handleChange}
             />
             {errors.cpw ? <div className="err-msg">{errors.cpw}</div> : null}
-            <button>Sign Up</button>
+            {formLoading ? (
+                <div className="form-loader"></div>
+            ) : (
+                <button>Sign Up</button>
+            )}
         </form>
     );
 };
