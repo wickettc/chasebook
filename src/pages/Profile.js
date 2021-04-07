@@ -189,6 +189,17 @@ const Profile = ({
                                                 >
                                                     <span className="friend-link">
                                                         <Link
+                                                            onClick={() => {
+                                                                setCurProfile(
+                                                                    {}
+                                                                );
+                                                                setIsFriendPending(
+                                                                    false
+                                                                );
+                                                                setIsFriend(
+                                                                    false
+                                                                );
+                                                            }}
                                                             to={`/profile/${eachRequest._id}`}
                                                         >
                                                             {
@@ -252,9 +263,13 @@ const Profile = ({
                                                 key={friend._id}
                                             >
                                                 <Link
-                                                    onClick={() =>
-                                                        setCurProfile({})
-                                                    }
+                                                    onClick={() => {
+                                                        setCurProfile({});
+                                                        setIsFriendPending(
+                                                            false
+                                                        );
+                                                        setIsFriend(false);
+                                                    }}
                                                     to={`/profile/${friend._id}`}
                                                 >
                                                     {friend.firstname}{' '}
