@@ -9,6 +9,7 @@ const Signup = ({ setToken, setCurUser }) => {
     const [confirmpassword, setConfirmpassword] = useState('');
     const [errors, setErrors] = useState({});
     const [formLoading, setFormLoading] = useState(false);
+    const [testActLoading, setTestActLoading] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -30,6 +31,20 @@ const Signup = ({ setToken, setCurUser }) => {
                 break;
             default:
                 console.log('something went wrong');
+        }
+    };
+
+    const handleTestDrive = async () => {
+        setTestActLoading(true);
+        const res = await login(
+            process.env.REACT_APP_TDLOGIN,
+            process.env.REACT_APP_TDPW
+        );
+        if (res.status === 200) {
+            setCurUser(res.data.user);
+            setToken(res.data.token);
+            localStorage.setItem('curUser', JSON.stringify(res.data.user));
+            localStorage.setItem('token', res.data.token);
         }
     };
 
@@ -137,6 +152,19 @@ const Signup = ({ setToken, setCurUser }) => {
                 <div className="form-loader"></div>
             ) : (
                 <button>Sign Up</button>
+            )}
+            <h4 style={{ margin: '11px 0' }}>OR</h4>
+            <h5 className="no-margin">Test Drive ChaseBook with the</h5>
+            {testActLoading ? (
+                <div className="form-loader"></div>
+            ) : (
+                <button
+                    onClick={handleTestDrive}
+                    className="no-margin test-btn"
+                    type="button"
+                >
+                    Test Account
+                </button>
             )}
         </form>
     );
