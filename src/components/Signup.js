@@ -151,7 +151,7 @@ const Signup = ({ setToken, setCurUser }) => {
             {formLoading ? (
                 <div className="form-loader"></div>
             ) : (
-                <button className='landing-btn'>Sign Up</button>
+                <button className="landing-btn">Sign Up</button>
             )}
             <h4 style={{ margin: '11px 0' }}>OR</h4>
             <h5 className="no-margin">Test Drive ChaseBook with the</h5>

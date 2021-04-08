@@ -63,7 +63,7 @@ const Login = ({ setToken, setCurUser }) => {
             {formLoading ? (
                 <div className="form-loader"></div>
             ) : (
-                <button>Log In</button>
+                <button className="landing-btn">Log In</button>
             )}
         </form>
     );
