@@ -61,7 +61,6 @@ const Profile = ({
         let mounted = true;
         async function fetchUser(id, token) {
             const res = await getUserProfile(id, token);
-            console.log(res);
             if (mounted) {
                 if (res) {
                     if (res.status === 200) {
