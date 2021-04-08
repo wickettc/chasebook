@@ -151,7 +151,7 @@ const Signup = ({ setToken, setCurUser }) => {
             {formLoading ? (
                 <div className="form-loader"></div>
             ) : (
-                <button>Sign Up</button>
+                <button className='landing-btn'>Sign Up</button>
             )}
             <h4 style={{ margin: '11px 0' }}>OR</h4>
             <h5 className="no-margin">Test Drive ChaseBook with the</h5>
@@ -160,7 +160,7 @@ const Signup = ({ setToken, setCurUser }) => {
             ) : (
                 <button
                     onClick={handleTestDrive}
-                    className="no-margin test-btn"
+                    className="no-margin landing-btn"
                     type="button"
                 >
                     Test Account
