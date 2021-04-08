@@ -50,7 +50,9 @@ function App() {
                                 setUpdateFeed={setUpdateFeed}
                                 updateFeed={updateFeed}
                                 isLoggedIn={isLoggedIn}
+                                setIsLoggedIn={setIsLoggedIn}
                                 token={token}
+                                setToken={setToken}
                             />
                         </Route>
                         <Route

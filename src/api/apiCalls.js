@@ -1,8 +1,8 @@
 import axios from 'axios';
 import qs from 'qs';
 
-// const baseURL = 'http://localhost:3000';
-const baseURL = 'https://evening-falls-95208.herokuapp.com';
+const baseURL = 'http://localhost:3000';
+// const baseURL = 'https://evening-falls-95208.herokuapp.com';
 
 const login = async (email, password) => {
     try {
@@ -72,7 +72,8 @@ const getAllPosts = async (token) => {
         });
         return response;
     } catch (err) {
-        console.log(err);
+        console.log({ err });
+        return { err };
     }
 };
 
@@ -89,6 +90,7 @@ const getPostsByUser = async (userID, token) => {
         return response;
     } catch (err) {
         console.log(err);
+        return { err };
     }
 };
 
@@ -108,6 +110,7 @@ const getPostsFromFriends = async (friendsArr, token) => {
         return response;
     } catch (err) {
         console.log(err);
+        return { err };
     }
 };
 
@@ -175,6 +178,7 @@ const getUserProfile = async (id, token) => {
         return response;
     } catch (err) {
         console.log(err);
+        return { err };
     }
 };
 

@@ -4,7 +4,15 @@ import PostFeed from '../components/PostFeed';
 import { Redirect } from 'react-router-dom';
 import './Home.css';
 
-const Home = ({ token, isLoggedIn, setUpdateFeed, updateFeed, curUser }) => {
+const Home = ({
+    token,
+    setToken,
+    isLoggedIn,
+    setIsLoggedIn,
+    setUpdateFeed,
+    updateFeed,
+    curUser,
+}) => {
     const [feedType, setFeedType] = useState({ type: 'main' });
     const [whichBtnActive, setWhichBtnActive] = useState(true);
 
@@ -40,8 +48,10 @@ const Home = ({ token, isLoggedIn, setUpdateFeed, updateFeed, curUser }) => {
                         </button>
                     </div>
                     <PostFeed
+                        setIsLoggedIn={setIsLoggedIn}
                         curUser={curUser}
                         token={token}
+                        setToken={setToken}
                         updateFeed={updateFeed}
                         setUpdateFeed={setUpdateFeed}
                         feedInfo={feedType}

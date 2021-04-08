@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import DisplayPost from './DisplayPost';
+import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import {
     getAllPosts,
@@ -8,47 +9,77 @@ import {
 } from '../api/apiCalls';
 import './PostFeed.css';
 
-const PostFeed = ({ token, updateFeed, setUpdateFeed, feedInfo, curUser }) => {
+const PostFeed = ({
+    token,
+    updateFeed,
+    setUpdateFeed,
+    feedInfo,
+    curUser,
+    setIsLoggedIn,
+    setToken,
+    setIsToken,
+}) => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
+    let history = useHistory();
 
     useEffect(() => {
         async function fetchPosts(token) {
             const res = await getAllPosts(token);
             if (res) {
-                //reverse array to show newest first
-                let posts = res.data;
-                posts = posts.reverse();
-                setPosts(posts);
-                setLoading(false);
-                setUpdateFeed(false);
-            } else {
-                // error popup
+                if (res.status === 200) {
+                    //reverse array to show newest first
+                    let posts = res.data;
+                    posts = posts.reverse();
+                    setPosts(posts);
+                    setLoading(false);
+                    setUpdateFeed(false);
+                } else if (res.err.response.status === 401) {
+                    setIsLoggedIn(false);
+                    setToken(null);
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('curUser');
+                    history.push('/login');
+                }
             }
         }
         async function fetchUsersPosts(userID, token) {
             const res = await getPostsByUser(userID, token);
             if (res) {
-                let posts = res.data;
-                posts = posts.reverse();
-                setPosts(posts);
-                setLoading(false);
-                setUpdateFeed(false);
+                if (res.status === 200) {
+                    let posts = res.data;
+                    posts = posts.reverse();
+                    setPosts(posts);
+                    setLoading(false);
+                    setUpdateFeed(false);
+                } else if (res.err.response.status === 401) {
+                    setIsLoggedIn(false);
+                    setToken(null);
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('curUser');
+                    history.push('/login');
+                }
             }
         }
 
         async function fetchFriendsPosts(friendsArr, token) {
             const res = await getPostsFromFriends(friendsArr, token);
             if (res) {
-                let posts = res.data;
-                posts = posts.reverse();
-                setPosts(posts);
-                setLoading(false);
-                setUpdateFeed(false);
+                if (res.status === 200) {
+                    let posts = res.data;
+                    posts = posts.reverse();
+                    setPosts(posts);
+                    setLoading(false);
+                    setUpdateFeed(false);
+                } else if (res.err.response.status === 401) {
+                    setIsLoggedIn(false);
+                    setToken(null);
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('curUser');
+                    history.push('/login');
+                }
             }
         }
-        // let mounted = true;
-        // if (mounted) {
         if (feedInfo.type === 'main') {
             fetchPosts(token);
         } else if (feedInfo.type === 'users') {
@@ -56,10 +87,16 @@ const PostFeed = ({ token, updateFeed, setUpdateFeed, feedInfo, curUser }) => {
         } else if (feedInfo.type === 'friends') {
             fetchFriendsPosts(curUser.friends, token);
         }
-        // }
-
-        // return () => (mounted = false);
-    }, [token, curUser, updateFeed, setUpdateFeed, feedInfo]);
+    }, [
+        token,
+        setToken,
+        curUser,
+        updateFeed,
+        setUpdateFeed,
+        feedInfo,
+        setIsLoggedIn,
+        history,
+    ]);
 
     return (
         <div>

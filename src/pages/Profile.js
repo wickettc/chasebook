@@ -8,7 +8,7 @@ import {
     denyFriendRequest,
     removeFriend,
 } from '../api/apiCalls';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import './Profile.css';
 import { Redirect } from 'react-router-dom';
@@ -30,6 +30,7 @@ const Profile = ({
     const [friendRequests, setFriendRequests] = useState([]);
     const [friends, setFriends] = useState([]);
     let location = useLocation();
+    let history = useHistory();
 
     ///////////// PAGE LOAD /////////////
 
@@ -60,10 +61,21 @@ const Profile = ({
         let mounted = true;
         async function fetchUser(id, token) {
             const res = await getUserProfile(id, token);
+            console.log(res);
             if (mounted) {
-                setCurProfile(res.data);
-                setFriends(res.data.friends);
-                setFriendRequests(res.data.friendrequests);
+                if (res) {
+                    if (res.status === 200) {
+                        setCurProfile(res.data);
+                        setFriends(res.data.friends);
+                        setFriendRequests(res.data.friendrequests);
+                    } else if (res.err.response.status === 401) {
+                        setIsLoggedIn(false);
+                        setToken(null);
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('curUser');
+                        history.push('/login');
+                    }
+                }
             }
         }
 
@@ -74,7 +86,7 @@ const Profile = ({
             fetchUser(match.params.id, token);
         }
         return () => (mounted = false);
-    }, [match, token, location, setIsLoggedIn]);
+    }, [match, token, setToken, location, setIsLoggedIn, history]);
 
     useEffect(() => {
         if (!_.isEmpty(curProfile)) {
@@ -295,6 +307,8 @@ const Profile = ({
                     {/* CREATE POST */}
                     {/* POST FEED */}
                     <PostFeed
+                        setIsLoggedIn={setIsLoggedIn}
+                        setToken={setToken}
                         curUser={curUser}
                         setUpdateFeed={setUpdateFeed}
                         token={token}
