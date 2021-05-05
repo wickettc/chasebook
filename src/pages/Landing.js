@@ -9,33 +9,35 @@ const Landing = ({ isLoggedIn, setToken, setCurUser }) => {
     const [showLogin, setShowLogin] = useState(false);
 
     return (
-        <div>
+        <div className="landing-div">
             {isLoggedIn ? <Redirect to="/" /> : null}
-            <div>
-                <h1>Welcome to ChaseBook!</h1>
-                <h3>the facebook clone</h3>
-            </div>
-            <div>
-                <button
-                    className={`landing-signup-btn ${
-                        showSignup ? 'landing-btn-active' : ''
-                    }`}
-                    onClick={() => {
-                        setShowLogin(false);
-                        setShowSignup(true);
-                    }}
-                >
-                    Sign Up
-                </button>
-                <button
-                    className={showLogin ? 'landing-btn-active' : ''}
-                    onClick={() => {
-                        setShowSignup(false);
-                        setShowLogin(true);
-                    }}
-                >
-                    Log In
-                </button>
+            <div className="landing-header">
+                <div>
+                    <h1>ChaseBook!</h1>
+                    <h3>The Facebook Clone</h3>
+                </div>
+                <div>
+                    <button
+                        className={`landing-signup-btn ${
+                            showSignup ? 'landing-btn-active' : ''
+                        }`}
+                        onClick={() => {
+                            setShowLogin(false);
+                            setShowSignup(true);
+                        }}
+                    >
+                        Sign Up
+                    </button>
+                    <button
+                        className={showLogin ? 'landing-btn-active' : ''}
+                        onClick={() => {
+                            setShowSignup(false);
+                            setShowLogin(true);
+                        }}
+                    >
+                        Log In
+                    </button>
+                </div>
                 <div className="form-div">
                     {showSignup ? (
                         <Signup setToken={setToken} setCurUser={setCurUser} />

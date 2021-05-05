@@ -2,6 +2,14 @@
     color: red;
 }
 
+.landing-header {
+    margin-left: 1%;
+}
+
+.landing-header h3 {
+    font-style: italic;
+}
+
 .landing-signup-btn {
     margin-right: 5px;
 }
@@ -19,6 +27,7 @@
 
 .landing-form {
     display: flex;
+    text-align: center;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -32,6 +41,7 @@
     padding: 10px 15px;
     margin-bottom: 5px;
     width: 80%;
+    text-align: center;
 }
 
 .no-margin {
@@ -40,6 +50,12 @@
 
 .landing-btn {
     margin-top: 15px;
+}
+
+@media only screen and (max-width: 767px) {
+    .landing-div {
+        text-align: center;
+    }
 }
 
 @media only screen and (min-width: 700px) {
