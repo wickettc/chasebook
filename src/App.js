@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { io } from 'socket.io-client';
 import {
     BrowserRouter as Router,
     Switch,
@@ -17,6 +18,17 @@ function App() {
     const [token, setToken] = useState(null);
     const [curUser, setCurUser] = useState({});
     const [updateFeed, setUpdateFeed] = useState(false);
+
+    const URL = 'http://localhost:3000';
+    const socket = io(URL);
+
+    socket.on('connect', (socket) => {
+        console.log('Connected to server');
+    });
+
+    socket.onAny((event, ...args) => {
+        console.log(event, args);
+    });
 
     useEffect(() => {
         if (token) {
