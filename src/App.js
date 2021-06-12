@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { io } from 'socket.io-client';
 import {
     BrowserRouter as Router,
     Switch,
@@ -7,6 +6,7 @@ import {
     Redirect,
 } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import ChatContainer from './components/ChatContainer';
 import Landing from './pages/Landing';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
@@ -19,19 +19,7 @@ function App() {
     const [curUser, setCurUser] = useState({});
     const [updateFeed, setUpdateFeed] = useState(false);
 
-    const URL = 'http://localhost:3000';
-    const socket = io(URL);
-    console.log(curUser);
-
-    socket.on('connect', (socket) => {
-        console.log('Connected to server');
-    });
-
-    socket.emit('register', curUser._id);
-
-    socket.onAny((event, ...args) => {
-        console.log(event, args);
-    });
+    console.log('apprun');
 
     useEffect(() => {
         if (token) {
@@ -98,6 +86,7 @@ function App() {
                         </Route>
                     </Switch>
                 </div>
+                <ChatContainer curUser={curUser} />
             </Router>
         </div>
     );

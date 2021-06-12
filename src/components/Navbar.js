@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import socket from '../utils/socket';
 import './Navbar.css';
 
 const Navbar = ({ isLoggedIn, setIsLoggedIn, setToken, curUser }) => {
@@ -26,6 +27,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, setToken, curUser }) => {
                         setToken(null);
                         localStorage.removeItem('token');
                         localStorage.removeItem('curUser');
+                        socket.emit('logout');
                         history.push('/login');
                     }}
                 >
