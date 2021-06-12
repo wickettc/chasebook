@@ -33,6 +33,7 @@ const Profile = ({
     let history = useHistory();
 
     ///////////// PAGE LOAD /////////////
+    console.log('curprofile', curProfile);
 
     useEffect(() => {
         if (!token) {

@@ -21,10 +21,13 @@ function App() {
 
     const URL = 'http://localhost:3000';
     const socket = io(URL);
+    console.log(curUser);
 
     socket.on('connect', (socket) => {
         console.log('Connected to server');
     });
+
+    socket.emit('register', curUser._id);
 
     socket.onAny((event, ...args) => {
         console.log(event, args);
