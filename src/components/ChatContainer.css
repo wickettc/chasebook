@@ -1,8 +1,11 @@
-.chat-container-bubble {
+.chat-container {
     position: sticky;
     display: inline-block;
-    width: 50px;
     bottom: 10px;
+}
+
+.chat-container-bubble {
+    width: 50px;
     z-index: 100000000;
     background-color: rgb(180, 175, 175);
     text-align: center;
@@ -13,4 +16,34 @@
 
 .chat-container-bubble svg {
     fill: rgb(9, 9, 138);
+}
+
+.chat-online-list {
+    z-index: 100000000;
+    border: 1px solid rgb(9, 9, 138);
+    background: white;
+}
+
+.online-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid black;
+}
+
+.online-container:last-child {
+    border-bottom: none;
+}
+
+.online-user-name {
+    display: inline-block;
+    padding-right: 5px;
+}
+
+.online-div {
+    display: inline-block;
+    background: green;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
 }
