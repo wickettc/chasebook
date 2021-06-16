@@ -86,7 +86,7 @@ function App() {
                         </Route>
                     </Switch>
                 </div>
-                <ChatContainer curUser={curUser} />
+                {isLoggedIn ? <ChatContainer curUser={curUser} /> : null}
             </Router>
         </div>
     );

@@ -5,16 +5,51 @@ import ChatOnlineList from './ChatOnlineList';
 
 const ChatContainer = ({ curUser }) => {
     const [showOnline, setShowOnline] = useState('false');
+    const [onlineUsers, setOnlineUsers] = useState([]);
+
+    const initReactiveProperties = (user) => {
+        user.connected = true;
+        user.messages = [];
+        user.hasNewMessages = false;
+    };
+    console.log('chatcontainer outside useeffect');
 
     useEffect(() => {
-        socket.on('connect', () => {
-            socket.emit('login', curUser._id);
+        let username = `${curUser.firstname} ${curUser.lastname}`;
+        console.log('chatcontainer running again');
+        socket.auth = { username };
+        socket.connect();
+
+        // this logic may need to be outside useEffect hook
+        socket.on('users', (users) => {
+            users.forEach((user) => {
+                user.self = user.userID === socket.id;
+                initReactiveProperties(user);
+            });
+            // put the current user first, and then sort by username
+            setOnlineUsers(
+                users.sort((a, b) => {
+                    if (a.self) return -1;
+                    if (b.self) return 1;
+                    if (a.username < b.username) return -1;
+                    return a.username > b.username ? 1 : 0;
+                })
+            );
+        });
+        socket.on('user connected', (user) => {
+            initReactiveProperties(user);
+            setOnlineUsers((onlineUsers) => [...onlineUsers, user]);
         });
 
+        //next to implement is private messaging
+
+        // this logic may need to be outside useEffect hook
+
+        console.log(onlineUsers);
         socket.onAny((event, ...args) => {
             console.log(event, args);
         });
-    }, [curUser]);
+    }, [curUser, onlineUsers]);
 
     return (
         <div className="chat-container">
