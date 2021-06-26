@@ -4,15 +4,37 @@ import './ChatContainer.css';
 import ChatOnlineList from './ChatOnlineList';
 
 const ChatContainer = ({ curUser }) => {
-    const [showOnline, setShowOnline] = useState('false');
+    const [showOnline, setShowOnline] = useState(false);
     const [onlineUsers, setOnlineUsers] = useState([]);
+    const [selectedUser, setSelectedUser] = useState(null);
 
     const initReactiveProperties = (user) => {
         user.connected = true;
         user.messages = [];
         user.hasNewMessages = false;
     };
-    console.log('chatcontainer outside useeffect');
+    console.log('chatcontainer outside useeffect', onlineUsers, selectedUser);
+
+    useEffect(() => {
+        socket.on('connect', () => {
+            let updateOnline = onlineUsers.forEach((user) => {
+                if (user.self) {
+                    user.connected = true;
+                }
+            });
+            console.log(updateOnline);
+            setOnlineUsers(updateOnline);
+        });
+
+        socket.on('disconnect', () => {
+            let updateOnline = onlineUsers.forEach((user) => {
+                if (user.self) {
+                    user.connected = false;
+                }
+            });
+            setOnlineUsers(updateOnline);
+        });
+    }, []);
 
     useEffect(() => {
         let username = `${curUser.firstname} ${curUser.lastname}`;
@@ -41,19 +63,52 @@ const ChatContainer = ({ curUser }) => {
             setOnlineUsers((onlineUsers) => [...onlineUsers, user]);
         });
 
-        //next to implement is private messaging
-
-        // this logic may need to be outside useEffect hook
+        socket.on('private message', ({ content, from }) => {
+            for (let i = 0; i < onlineUsers.length; i++) {
+                const user = onlineUsers[i];
+                if (user.userID === from) {
+                    let updatedUser = user;
+                    updatedUser.messages.push({
+                        content,
+                        fromSelf: false,
+                    });
+                    setOnlineUsers((prevUsers) => [...prevUsers, updatedUser]);
+                }
+                if (user !== selectedUser) {
+                    const updatedUser = user;
+                    updatedUser.hasNewMessages = true;
+                    setOnlineUsers((prevUsers) => [...prevUsers, updatedUser]);
+                }
+            }
+        });
 
         console.log(onlineUsers);
         socket.onAny((event, ...args) => {
             console.log(event, args);
         });
-    }, [curUser, onlineUsers]);
+    }, [curUser, onlineUsers, selectedUser]);
+
+    const onMessage = (content) => {
+        if (selectedUser) {
+            socket.emit('private message', {
+                content,
+                to: selectedUser.userID,
+            });
+            const updateSelectedUser = selectedUser;
+            updateSelectedUser.messages.push({ content, fromSelf: true });
+            setSelectedUser(updateSelectedUser);
+            console.log(selectedUser);
+        }
+    };
 
     return (
         <div className="chat-container">
-            {showOnline ? <ChatOnlineList /> : null}
+            {showOnline ? (
+                <ChatOnlineList
+                    setSelectedUser={setSelectedUser}
+                    onlineUsers={onlineUsers}
+                />
+            ) : null}
             <div
                 className="chat-container-bubble"
                 onClick={() => setShowOnline(!showOnline)}

@@ -1,21 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const ChatOnlineUser = ({ user }) => {
+const ChatOnlineUser = ({ user, setSelectedUser }) => {
     return (
-        <div className="online-container">
-            <div className="online-user-name">{user}</div>
+        <div onClick={() => setSelectedUser(user)} className="online-container">
+            <div className="online-user-name">{user.username}</div>
             <div className="online-div"></div>
         </div>
     );
 };
 
-const ChatOnlineList = () => {
-    const [onlineUsers, setOnlineUsers] = useState(['john', 'chase']);
-
+const ChatOnlineList = ({ onlineUsers, setSelectedUser }) => {
     return (
         <div className="chat-online-list">
             {onlineUsers.map((user, index) => {
-                return <ChatOnlineUser key={index} user={user} />;
+                return (
+                    <ChatOnlineUser
+                        setSelectedUser={setSelectedUser}
+                        key={index}
+                        user={user}
+                    />
+                );
             })}
         </div>
     );
